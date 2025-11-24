@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -22,7 +23,8 @@ class PostFactory extends Factory
         return [
             'title' => fake()->sentence(10, false), 
             'author_id' => User::factory(),
-            'body' => fake()->text(10000)
+            'body' => fake()->text(10000),
+            'cate_id' => Category::factory(),
         ];
     }
 };
