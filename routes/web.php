@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,13 @@ Route::get('/posts/{post}', function (Post $post) {
 Route::get('/authors/{user}', function (User $user) {
 
     return view('posts', ['title' => 'Article By '  . $user->name, 'posts' => $user->posts]);
+});
+
+Route::get('/categories/{category:id}', function (Category $category) {
+    return view('posts', [
+        'title' => 'Articles in ' . $category->activity, 
+        'posts' => $category->posts
+    ]);
 });
 
 

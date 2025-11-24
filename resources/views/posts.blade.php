@@ -7,7 +7,14 @@
             <h1 class="mb-1 text-3xl tracking-tight font-bold">{{ $post ['title'] }}</h1>
         </a>
         <div class="text-base text-gray-500">
-            <a href="/authors/{{ $post->author->id }}" class="hover:underline">{{ $post->author->name}} Di {{ $post->categor->id }} | {{$post->created_at->diffForHumans()}};</a> | 
+            <a href="/authors/{{ $post->author->id }}" class="hover:underline">
+                {{ $post->author->name}}  
+            </a> 
+            <p>Di</p>
+            <a href="/categories/{{ $post->category->id }}" class="hover:underline text-blue-400">
+                    {{ $post->category->activity }}
+                </a>  
+            | {{$post->created_at->diffForHumans()}};
         </div>
         <p class="my-4 font-light">
             {{ Str::limit($post ['body'], 150) }}
