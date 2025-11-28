@@ -1,20 +1,19 @@
-<x-layout >
+<x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
     <article class="text-white py-8 max-w-screen-md">
-        <h1 class="mb-1 text-3xl tracking-tight font-bold">{{ $post ['title'] }}</h1>
+        <h1 class="mb-1 text-3xl tracking-tight font-bold">{{ $post['title'] }}</h1>
         <div class="text-base text-gray-500">
-            <a href="/authors/{{ $post->author->author_id }}">{{ $post->author->name }}</a> 
+            <a href="/authors/{{ $post->author->username }}">{{ $post->author->name }}</a>
             Di
-            <a href="/categories/{{ $post->category->cate_id }}" class="hover:underline text-blue-400">
-                    {{ $post->category->activity }}
-            </a> 
-            | {{$post->created_at->format('l, j F Y')}}
+            <a href="/categories/{{ $post->category->id }}" class="hover:underline text-blue-400">
+                {{ $post->category->activity }}
+            </a>
+            | {{ $post->created_at->format('l, j F Y') }}
         </div>
         <p class="my-4 font-light">
-            {{$post ['body'] }}
+            {{ $post['body'] }}
         </p>
         <a href="/posts" class="font-medium text-blue-500 hover:underline">&laquo; Kembali</a>
-    </article>    
-    
+    </article>
 </x-layout>
