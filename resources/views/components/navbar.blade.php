@@ -12,7 +12,12 @@
                                 <x-navlink href="/" :active="request()->is('/')">Home</x-navlink>
                                 <x-navlink href="/posts" :active="request()->is('posts')">Blog</x-navlink>
                                 <x-navlink href="/contact" :active="request()->is('contact')">Kontak</x-navlink>
-                                <x-navlink href="/about" :active="request()->is('about')">About</x-navlink>
+                                <x-navlink href="/about" :active="request()->is('about')">About</x-navlink>                                
+                                @auth
+                                    @if(auth()->user()->is_admin)
+                                        <x-navlink href="/admin/images" :active="request()->is('admin/images*')">Admin Panel</x-navlink>
+                                    @endif
+                                @endauth
                             </div>
                         </div>
                     </div>
@@ -83,6 +88,12 @@
                     <x-navlink href="/posts" :active="request()->is('posts')">Blog</x-navlink>
                     <x-navlink href="/about" :active="request()->is('about')">About</x-navlink>
                     <x-navlink href="/contact" :active="request()->is('contact')">Kontak</x-navlink>
+
+                    @auth
+                        @if(auth()->user()->is_admin)
+                            <x-navlink href="/admin/images" :active="request()->is('admin/images*')">Admin Panel</x-navlink>
+                        @endif
+                    @endauth
                 </div>
                 <div class="border-t border-white/10 pb-3 pt-4">
                     <div class="flex items-center px-5">
@@ -109,3 +120,4 @@
                 </div>
             </el-disclosure>
         </nav>
+        
