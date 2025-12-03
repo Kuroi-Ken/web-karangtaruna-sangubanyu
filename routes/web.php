@@ -19,7 +19,7 @@ Route::get('/posts', function () {
 });
 
 Route::get('/posts/{post}', function (Post $post) {
-    return view('post', ['title' => 'Single Post', 'post' => $post]);
+    return view('post', ['title' => $post->title, 'post' => $post]);
 });
 
 Route::get('/authors/{user:username}', function (User $user) {
@@ -29,9 +29,9 @@ Route::get('/authors/{user:username}', function (User $user) {
     ]);
 });
 
-Route::get('/categories/{category}', function (Category $category) {
+Route::get('/categories/{category:slug}', function (Category $category) {
     return view('posts', [
-        'title' => count($category->post) .  ' Articles in ' . $category->activity, 
+        'title' => count($category->post) .  ' Articles in: ' . $category->activity, 
         'posts' => $category->post
     ]);
 });

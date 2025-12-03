@@ -12,7 +12,7 @@
                         {{ $post->author->name }}  
                     </a> 
                     Di
-                    <a href="/categories/{{ $post->category->id }}" class="hover:underline ">
+                    <a href="/categories/{{ $post->category->slug }}" class="hover:underline ">
                         {{ $post->category->activity }}
                     </a> 
 
