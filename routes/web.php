@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Image;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ImageController;
 
 Route::get('/', function () {
@@ -53,6 +55,16 @@ Route::get('/about', function () {
     return view('about', ['title' => 'About', 'nama' => 'Faiz Nur Ramadhan']);
 });
 
+// Authentication routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('posts', AdminPostController::class);
     Route::resource('images', ImageController::class);
 });

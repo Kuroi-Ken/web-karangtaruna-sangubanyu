@@ -14,32 +14,22 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buat admin user
+        // Buat admin user saja
         $admin = User::create([
             'name' => 'Admin',
             'username' => 'admin',
             'email' => 'admin@example.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('password'),
+            'password' => Hash::make('admin123'),
             'remember_token' => Str::random(10),
             'is_admin' => true
         ]);
 
-        $test = User::create([
-            'name' => 'Faiz Nur Ramadhan',
-            'username' => 'KuroiKen',
-            'email' => 'faizamadhan@hotmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10)
-        ]);
-
-        $users = User::factory(5)->create();
+        // Buat categories dan posts dengan author admin
         $categories = Category::factory(4)->create();
 
         Post::factory(100)->recycle([
-            $test,
-            $users,
+            $admin,
             $categories
         ])->create();
     }

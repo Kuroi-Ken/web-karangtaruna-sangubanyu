@@ -10,9 +10,26 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $images = Image::orderBy('order')->orderBy('created_at', 'desc')->get();
+        $query = Image::query();
+
+        // Search functionality
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter by status
+        if ($request->has('status') && $request->status != '') {
+            $query->where('is_active', $request->status);
+        }
+
+        $images = $query->orderBy('order')->orderBy('created_at', 'desc')->get();
+        
         return view('admin.images.index', compact('images'));
     }
 
