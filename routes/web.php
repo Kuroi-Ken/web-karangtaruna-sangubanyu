@@ -17,7 +17,7 @@ Route::get('/', function () {
         ->get();
     
     return view('home', [
-        'title' => 'Home Page',
+        'title' => 'Website Karang Taruna Desa Sangubanyu',
         'images' => $images
     ]);
 });
@@ -52,7 +52,7 @@ Route::get('/contact', function () {
 });
 
 Route::get('/about', function () {
-    return view('about', ['title' => 'About', 'nama' => 'Faiz Nur Ramadhan']);
+    return view('about', ['title' => 'Tentang Kami', 'nama' => 'Faiz Nur Ramadhan']);
 });
 
 // Authentication routes

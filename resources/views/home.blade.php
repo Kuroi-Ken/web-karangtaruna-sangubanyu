@@ -1,9 +1,9 @@
 <!-- resources/views/home.blade.php -->
 <x-layout>
-    <x-slot:title>{{ $title }}</x-slot:title>
+    <x-slot:title>Selamat Datang di Website Karang Taruna</x-slot:title>
 
     <div class="py-6">
-        <h2 class="text-white text-2xl font-bold mb-6">Welcome to Our Website</h2>
+        {{-- <h2 class="text-white text-2xl font-bold mb-6">Welcome to Our Website</h2> --}}
 
         @if ($images->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

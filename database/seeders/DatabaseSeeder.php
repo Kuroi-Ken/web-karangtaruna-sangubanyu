@@ -26,11 +26,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Buat categories dan posts dengan author admin
-        $categories = Category::factory(4)->create();
-
-        Post::factory(100)->recycle([
-            $admin,
-            $categories
-        ])->create();
+        $categoryNames = ['Kegiatan Desa A', 'Kegiatan Desa B', 'Kegiatan Desa C', 'Kegiatan Desa D'];
+        $categories = [];
+        
+        foreach ($categoryNames as $name) {
+            $categories[] = Category::create([
+                'activity' => $name,
+                'slug' => Str::slug($name)
+            ]);
+        }
+        // Post::factory(50)->recycle([
+        //     $admin,
+        //     $categories
+        // ])->create();
     }
 }

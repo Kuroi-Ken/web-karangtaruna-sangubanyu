@@ -41,10 +41,11 @@ class PostController extends Controller
     }
 
     public function create()
-    {
-        $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
-    }
+{
+    // Tambahkan orderBy untuk mengurutkan berdasarkan activity
+    $categories = Category::orderBy('activity', 'asc')->get();
+    return view('admin.posts.create', compact('categories'));
+}
 
     public function store(Request $request)
     {
@@ -67,7 +68,8 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $categories = Category::all();
+        // Tambahkan orderBy untuk mengurutkan berdasarkan activity
+        $categories = Category::orderBy('activity', 'asc')->get();
         return view('admin.posts.edit', compact('post', 'categories'));
     }
 
