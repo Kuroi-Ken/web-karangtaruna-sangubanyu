@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buat admin user saja
+        // Buat admin user
         $admin = User::create([
             'name' => 'Admin',
             'username' => 'admin',
@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true
         ]);
 
-        // Buat categories dan posts dengan author admin
+        // Buat categories secara berurutan
         $categoryNames = ['Kegiatan Desa A', 'Kegiatan Desa B', 'Kegiatan Desa C', 'Kegiatan Desa D'];
         $categories = [];
         
@@ -35,9 +35,16 @@ class DatabaseSeeder extends Seeder
                 'slug' => Str::slug($name)
             ]);
         }
-        // Post::factory(50)->recycle([
-        //     $admin,
-        //     $categories
-        // ])->create();
+
+        // Buat 50 posts dengan fake data
+        foreach (range(1, 50) as $index) {
+            Post::create([
+                'title' => fake()->sentence(rand(5, 12)), // Judul random 5-12 kata
+                'author_id' => $admin->id,
+                'author_name' => fake()->name(), // Nama author random dari Faker
+                'cate_id' => fake()->randomElement($categories)->id,
+                'body' => fake()->paragraphs(rand(4, 10), true), // 4-10 paragraf
+            ]);
+        }
     }
 }

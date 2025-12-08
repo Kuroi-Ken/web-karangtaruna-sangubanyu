@@ -7,8 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     <title>{{ $title }}</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+
+     <style>
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Offset untuk sticky header */
+        .sticky-offset {
+            scroll-margin-top: 100px;
+        }
+    </style>
 </head>
 
 <body class="h-full">
@@ -22,7 +34,5 @@
         </main>
     </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module">
 </script>
-
 </html>

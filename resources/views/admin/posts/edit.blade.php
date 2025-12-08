@@ -26,6 +26,15 @@
                     placeholder="Enter post title">
             </div>
 
+            <!-- Input Author sebagai String -->
+            <div class="mb-4">
+                <label class="block text-white mb-2 font-medium">Author Name *</label>
+                <input type="text" name="author_name" value="{{ old('author_name', $post->author_name) }}" required
+                    class="w-full bg-gray-700 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Enter author name (e.g., John Doe)">
+                <p class="text-gray-400 text-xs mt-1">Masukkan nama penulis artikel</p>
+            </div>
+
             <div class="mb-4">
                 <label class="block text-white mb-2 font-medium">Category *</label>
                 <select name="cate_id" required
@@ -49,7 +58,7 @@
 
             <div class="mb-4 p-4 bg-gray-700/50 rounded-lg">
                 <div class="text-gray-400 text-sm">
-                    <p><strong>Author:</strong> {{ $post->author->name }}</p>
+                    <p><strong>Created by:</strong> {{ $post->author->name ?? 'System' }}</p>
                     <p><strong>Created:</strong> {{ $post->created_at->format('M d, Y H:i') }}</p>
                     <p><strong>Last Updated:</strong> {{ $post->updated_at->format('M d, Y H:i') }}</p>
                 </div>

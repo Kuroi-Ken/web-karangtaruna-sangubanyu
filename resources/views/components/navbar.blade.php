@@ -1,5 +1,5 @@
-<nav class="bg-gray-800/50">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<nav class="bg-gray-800 sticky top-0 z-50 shadow-lg">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
                 <a href="/" class="shrink-0">
@@ -11,6 +11,7 @@
                         <x-navlink href="/" :active="request()->is('/')">Home</x-navlink>
                         <x-navlink href="/posts" :active="request()->is('posts')">Blog</x-navlink>
                         <x-navlink href="/contact" :active="request()->is('contact')">Kontak</x-navlink>
+                        <x-navlink href="/struktur" :active="request()->is('struktur')">Struktur</x-navlink>
                         <x-navlink href="/about" :active="request()->is('about')">About</x-navlink>
                         @auth
                         <x-navlink href="/admin/posts" :active="request()->is('admin/*')">Admin Panel</x-navlink>
@@ -72,7 +73,8 @@
             <x-navlink href="/posts" :active="request()->is('posts')">Blog</x-navlink>
             <x-navlink href="/about" :active="request()->is('about')">About</x-navlink>
             <x-navlink href="/contact" :active="request()->is('contact')">Kontak</x-navlink>
-
+            <x-navlink href="/struktur" :active="request()->is('struktur')">Struktur</x-navlink>
+            
             @auth
             <x-navlink href="/admin/posts" :active="request()->is('admin/*')">Admin Panel</x-navlink>
             @endauth

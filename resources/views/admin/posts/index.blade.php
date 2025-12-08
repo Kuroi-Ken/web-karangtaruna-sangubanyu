@@ -86,7 +86,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-gray-300">
-                                {{ $post->author->name }}
+                                {{ $post->author_name ?? $post->author->name }}
                             </td>
                             <td class="px-6 py-4 text-gray-400 text-sm">
                                 {{ $post->created_at->format('M d, Y') }}

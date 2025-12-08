@@ -23,27 +23,96 @@ Route::get('/', function () {
 });
 
 Route::get('/posts', function () {
+    $query = Post::with(['author', 'category']);
+    
+    // Search functionality
+    if (request('search')) {
+        $search = request('search');
+        $query->where(function($q) use ($search) {
+            $q->where('title', 'like', '%' . $search . '%')
+              ->orWhere('body', 'like', '%' . $search . '%')
+              ->orWhere('author_name', 'like', '%' . $search . '%')
+              ->orWhereHas('category', function($q) use ($search) {
+                  $q->where('activity', 'like', '%' . $search . '%');
+              });
+        });
+    }
+    
+    // Filter by category
+    if (request('category')) {
+        $query->where('cate_id', request('category'));
+    }
+    
+    // Filter by author name
+    if (request('author')) {
+        $query->where('author_name', request('author'));
+    }
+    
+    // Sorting
+    $sortBy = request('sort', 'latest');
+    
+    switch ($sortBy) {
+        case 'oldest':
+            $query->orderBy('created_at', 'asc');
+            break;
+        case 'title':
+            $query->orderBy('title', 'asc');
+            break;
+        case 'author':
+            $query->orderBy('author_name', 'asc');
+            break;
+        case 'latest':
+        default:
+            $query->orderBy('created_at', 'desc');
+            break;
+    }
+    
+    $posts = $query->get();
+    $categories = Category::orderBy('activity', 'asc')->get();
+    
+    // Get unique author names
+    $authors = Post::whereNotNull('author_name')
+        ->select('author_name')
+        ->distinct()
+        ->orderBy('author_name', 'asc')
+        ->pluck('author_name');
+    
     return view('posts', [
         'title' => 'Blog', 
-        'posts' => Post::with(['author', 'category'])->get()
+        'posts' => $posts,
+        'categories' => $categories,
+        'authors' => $authors
     ]);
-});
+})->name('posts.index');
 
+// Tambahkan named route untuk detail post
 Route::get('/posts/{post}', function (Post $post) {
     return view('post', ['title' => $post->title, 'post' => $post]);
-});
+})->name('post.show');
 
 Route::get('/authors/{user:username}', function (User $user) {
     return view('posts', [
         'title' => count($user->posts) . ' Article By ' . $user->name, 
-        'posts' => $user->posts
+        'posts' => $user->posts,
+        'categories' => Category::orderBy('activity', 'asc')->get(),
+        'authors' => Post::whereNotNull('author_name')
+            ->select('author_name')
+            ->distinct()
+            ->orderBy('author_name', 'asc')
+            ->pluck('author_name')
     ]);
 });
 
 Route::get('/categories/{category:slug}', function (Category $category) {
     return view('posts', [
         'title' => count($category->post) . ' Articles in: ' . $category->activity, 
-        'posts' => $category->post
+        'posts' => $category->post,
+        'categories' => Category::orderBy('activity', 'asc')->get(),
+        'authors' => Post::whereNotNull('author_name')
+            ->select('author_name')
+            ->distinct()
+            ->orderBy('author_name', 'asc')
+            ->pluck('author_name')
     ]);
 });
 
@@ -67,4 +136,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('posts', AdminPostController::class);
     Route::resource('images', ImageController::class);
+});
+
+Route::get('/struktur', function () {
+    return view('struktur', ['title' => 'Strutur Organisasi']);
 });

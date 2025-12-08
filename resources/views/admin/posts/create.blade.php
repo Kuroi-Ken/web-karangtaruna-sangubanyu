@@ -25,6 +25,15 @@
                     placeholder="Enter post title">
             </div>
 
+            <!-- Input Author sebagai String -->
+            <div class="mb-4">
+                <label class="block text-white mb-2 font-medium">Author Name *</label>
+                <input type="text" name="author_name" value="{{ old('author_name') }}" required
+                    class="w-full bg-gray-700 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Enter author name (e.g., John Doe)">
+                <p class="text-gray-400 text-xs mt-1">Masukkan nama penulis artikel</p>
+            </div>
+
             <div class="mb-4">
                 <label class="block text-white mb-2 font-medium">Category *</label>
                 <select name="cate_id" required

@@ -20,6 +20,7 @@ class PostController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('title', 'like', '%' . $search . '%')
                   ->orWhere('body', 'like', '%' . $search . '%')
+                  ->orWhere('author_name', 'like', '%' . $search . '%')
                   ->orWhereHas('category', function($q) use ($search) {
                       $q->where('activity', 'like', '%' . $search . '%');
                   })
@@ -35,29 +36,30 @@ class PostController extends Controller
         }
 
         $posts = $query->orderBy('created_at', 'desc')->get();
-        $categories = Category::all();
+        $categories = Category::orderBy('activity', 'asc')->get();
 
         return view('admin.posts.index', compact('posts', 'categories'));
     }
 
     public function create()
-{
-    // Tambahkan orderBy untuk mengurutkan berdasarkan activity
-    $categories = Category::orderBy('activity', 'asc')->get();
-    return view('admin.posts.create', compact('categories'));
-}
+    {
+        $categories = Category::orderBy('activity', 'asc')->get();
+        return view('admin.posts.create', compact('categories'));
+    }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'author_name' => 'required|string|max:255',
             'cate_id' => 'required|exists:categories,id',
             'body' => 'required|string',
         ]);
 
         Post::create([
             'title' => $request->title,
-            'author_id' => auth()->id(),
+            'author_id' => auth()->id(), // Tetap simpan ID admin yang membuat
+            'author_name' => $request->author_name, // Simpan nama author sebagai string
             'cate_id' => $request->cate_id,
             'body' => $request->body,
         ]);
@@ -68,7 +70,6 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        // Tambahkan orderBy untuk mengurutkan berdasarkan activity
         $categories = Category::orderBy('activity', 'asc')->get();
         return view('admin.posts.edit', compact('post', 'categories'));
     }
@@ -77,12 +78,14 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'author_name' => 'required|string|max:255',
             'cate_id' => 'required|exists:categories,id',
             'body' => 'required|string',
         ]);
 
         $post->update([
             'title' => $request->title,
+            'author_name' => $request->author_name,
             'cate_id' => $request->cate_id,
             'body' => $request->body,
         ]);
