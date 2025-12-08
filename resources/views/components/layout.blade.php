@@ -1,3 +1,5 @@
+@props(['hideHeader' => false, 'hideNavbar' => false])
+
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-900">
 
@@ -9,14 +11,10 @@
     <title>{{ $title }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-
-     <style>
-        /* Smooth scroll behavior */
+    <style>
         html {
             scroll-behavior: smooth;
         }
-        
-        /* Offset untuk sticky header */
         .sticky-offset {
             scroll-margin-top: 100px;
         }
@@ -25,8 +23,15 @@
 
 <body class="h-full">
     <div class="min-h-full">
-        <x-navbar></x-navbar>
-        <x-header>{{ $title }}</x-header>
+
+        @if (!($hideNavbar ?? false))
+            <x-navbar></x-navbar>
+        @endif
+
+        @if (!($hideHeader ?? false))
+            <x-header>{{ $title }}</x-header>
+        @endif
+
         <main>
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 {{ $slot }}
@@ -34,5 +39,5 @@
         </main>
     </div>
 </body>
-</script>
+
 </html>

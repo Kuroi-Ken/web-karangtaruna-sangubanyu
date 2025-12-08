@@ -85,7 +85,7 @@
 
                         <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             <a href="{{ route('post.show', $post->id) }}" class="hover:text-indigo-500 transition">
-                                {{ $post->title }}
+                                {{ Str::limit($post->title, 45)}}
                             </a>
                         </h2>
 
@@ -94,7 +94,7 @@
                         </p>
 
                         <div class="flex justify-between items-center">
-                            <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-4">
                                 <!-- Avatar dengan initial author name -->
                                 <img class="w-7 h-7 rounded-full" 
                                      src="https://ui-avatars.com/api/?name={{ urlencode($post->author_name ?? $post->author->name) }}&background=6366f1&color=fff" 
@@ -102,7 +102,7 @@
                                 
                                 <!-- Tampilkan author_name jika ada, fallback ke author->name -->
                                 <a href="{{ url('/posts?author=' . urlencode($post->author_name)) }}" 
-                                   class="font-medium w-2/3 dark:text-white hover:text-indigo-500 transition">
+                                   class="font-medium w-3/4 dark:text-white hover:text-indigo-500 transition">
                                     {{ $post->author_name ?? $post->author->name }}
                                 </a>
                             </div>
