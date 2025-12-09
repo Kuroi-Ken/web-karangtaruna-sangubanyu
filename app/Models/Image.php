@@ -16,10 +16,12 @@ class Image extends Model
         'path',
         'description',
         'is_active',
+        'is_hero',  // TAMBAHKAN INI
         'order'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_hero' => 'boolean',  // TAMBAHKAN INI
     ];
 }

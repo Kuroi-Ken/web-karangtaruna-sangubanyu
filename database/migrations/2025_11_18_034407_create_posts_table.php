@@ -22,6 +22,8 @@ return new class extends Migration
                 table: 'categories'
             );
             $table->text('body');
+            $table->string('author_name')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

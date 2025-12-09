@@ -1,4 +1,3 @@
-<!-- resources/views/components/admin-menu.blade.php -->
 <div class="bg-gray-800 rounded-lg p-4 mb-6">
     <nav class="flex space-x-4">
         <a href="{{ route('admin.posts.index') }}" 

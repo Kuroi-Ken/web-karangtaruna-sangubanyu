@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->integer('order')->default(0);
+             $table->boolean('is_hero')->default(false);
             $table->timestamps();
         });
     }

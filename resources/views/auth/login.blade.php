@@ -1,5 +1,4 @@
-<!-- resources/views/auth/login.blade.php -->
-<x-layout>
+<x-layout :hideNavbar="true">
     <x-slot:title>Admin Login</x-slot:title>
 
     <div class="flex min-h-[calc(100vh-16rem)] items-center justify-center">

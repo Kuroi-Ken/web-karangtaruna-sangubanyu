@@ -43,11 +43,22 @@
                     class="w-full bg-gray-700 text-white rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
 
-            <div class="mb-6">
+            <div class="mb-4">
                 <label class="flex items-center text-white">
                     <input type="checkbox" name="is_active" value="1" checked
                         class="mr-2 rounded bg-gray-700 border-gray-600">
-                    Active
+                    Active (Show in gallery)
+                </label>
+            </div>
+
+            <div class="mb-6 p-4 bg-indigo-500/10 border border-indigo-500 rounded">
+                <label class="flex items-start text-white">
+                    <input type="checkbox" name="is_hero" value="1" {{ old('is_hero') ? 'checked' : '' }}
+                        class="mr-2 mt-1 rounded bg-gray-700 border-gray-600">
+                    <div>
+                        <span class="font-semibold">Set as Hero Background</span>
+                        <p class="text-sm text-gray-300 mt-1">This image will be used as the background on the home page. Only one image can be set as hero at a time.</p>
+                    </div>
                 </label>
             </div>
 
