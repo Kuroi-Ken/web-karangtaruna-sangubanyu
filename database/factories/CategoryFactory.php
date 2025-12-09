@@ -14,10 +14,12 @@ class CategoryFactory extends Factory
     {
         return [
             'activity' => $this->faker->randomElement([
-                'Kegiatan Desa A',
-                'Kegiatan Desa B',
-                'Kegiatan Desa C',
-                'Kegiatan Desa D',
+            'Kegiatan Dusun Krajan', 
+            'Kegiatan Dusun Ketundan', 
+            'Kegiatan Dusun Telogosirih',
+            'Kegiatan Dusun Karang Lor', 
+            'Kegiatan Dusun Karang Kidul', 
+            'Kegiatan Dusun Nampu'
             ]),
             'slug' => Str::slug(fake()->sentence(rand(1,2),false))
         ];

@@ -3,11 +3,11 @@
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
                 <a href="/" class="shrink-0">
-                    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                    <img class="w-10 h-10" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Lambang_Kabupaten_Purworejo.png"
                         alt="Your Company" class="size-8" />
                 </a>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
+                    <div class="ml-7 flex items-baseline space-x-4">
                         <x-navlink href="/" :active="request()->is('/')">Home</x-navlink>
                         <x-navlink href="/posts" :active="request()->is('posts')">Blog</x-navlink>
                         <x-navlink href="/contact" :active="request()->is('contact')">Kontak</x-navlink>
@@ -27,10 +27,10 @@
                         Admin
                     </a>
                     @else
-                    <div class="flex items-center gap-3 bg-gray-700/50 rounded-lg px-4 py-2">
+                    <div class="flex items-center gap-3 bg-gray-700/50 rounded-lg px-3 py-1.5">
                         <div class="flex items-center gap-2">
                             <div
-                                class="size-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+                                class="size-7 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
                                 A
                             </div>
                             <span class="text-white text-sm font-medium">Admin</span>

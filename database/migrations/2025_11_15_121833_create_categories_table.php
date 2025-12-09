@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->enum('activity', ['Kegiatan Desa A', 'Kegiatan Desa B', 'Kegiatan Desa C','Kegiatan Desa D' ]);
+            $table->enum('activity', [
+            'Kegiatan Dusun Krajan', 
+            'Kegiatan Dusun Ketundan', 
+            'Kegiatan Dusun Telogosirih',
+            'Kegiatan Dusun Karang Lor', 
+            'Kegiatan Dusun Karang Kidul', 
+            'Kegiatan Dusun Nampu']);
             $table->string('slug')->unique();
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ class Post extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['author_id', 'author_name', 'title', 'body', 'cate_id'];
+    protected $fillable = ['author_id', 'author_name', 'title', 'image', 'body', 'cate_id'];
     protected $with = ['category', 'author'];
 
     public function author(): BelongsTo
@@ -26,7 +26,7 @@ class Post extends Model
         return $this->belongsTo(Category::class, 'cate_id');
     }
     
-    // Accessor untuk mendapatkan nama author (prioritas author_name, fallback ke author->name)
+    // Accessor untuk mendapatkan nama author
     public function getAuthorDisplayAttribute(): string
     {
         return $this->author_name ?? $this->author->name ?? 'Unknown';

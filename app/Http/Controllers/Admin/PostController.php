@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -52,14 +53,25 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'cate_id' => 'required|exists:categories,id',
             'body' => 'required|string',
         ]);
 
+        $imagePath = null;
+        
+        // Upload image jika ada
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('posts', $filename, 'public');
+        }
+
         Post::create([
             'title' => $request->title,
-            'author_id' => auth()->id(), // Tetap simpan ID admin yang membuat
-            'author_name' => $request->author_name, // Simpan nama author sebagai string
+            'author_id' => auth()->id(),
+            'author_name' => $request->author_name,
+            'image' => $imagePath,
             'cate_id' => $request->cate_id,
             'body' => $request->body,
         ]);
@@ -79,16 +91,31 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'cate_id' => 'required|exists:categories,id',
             'body' => 'required|string',
         ]);
 
-        $post->update([
+        $data = [
             'title' => $request->title,
             'author_name' => $request->author_name,
             'cate_id' => $request->cate_id,
             'body' => $request->body,
-        ]);
+        ];
+
+        // Upload image baru jika ada
+        if ($request->hasFile('image')) {
+            // Hapus image lama jika ada
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+
+            $image = $request->file('image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $data['image'] = $image->storeAs('posts', $filename, 'public');
+        }
+
+        $post->update($data);
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post updated successfully!');
@@ -96,6 +123,11 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
+        // Hapus image jika ada
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+        
         $post->delete();
 
         return redirect()->route('admin.posts.index')

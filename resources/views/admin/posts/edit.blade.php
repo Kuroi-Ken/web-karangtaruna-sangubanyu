@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.posts.update', $post) }}" method="POST"
+        <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data"
             class="bg-gray-800 rounded-lg p-6">
             @csrf
             @method('PUT')
@@ -26,7 +26,36 @@
                     placeholder="Enter post title">
             </div>
 
-            <!-- Input Author sebagai String -->
+            <!-- Current Image & Upload New -->
+            <div class="mb-4">
+                <label class="block text-white mb-2 font-medium">Featured Image</label>
+                
+                @if($post->image)
+                    <div class="mb-3">
+                        <p class="text-gray-400 text-sm mb-2">Current Image:</p>
+                        <img src="{{ Storage::url($post->image) }}" alt="Current post image" 
+                             class="max-w-md h-48 object-cover rounded-lg">
+                    </div>
+                @endif
+
+                <input type="file" name="image" accept="image/*"
+                    class="w-full bg-gray-700 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p class="text-gray-400 text-xs mt-1">
+                    Max size: 2MB. Formats: JPEG, PNG, JPG, GIF 
+                    @if($post->image)
+                        (Leave empty to keep current image)
+                    @else
+                        (Optional)
+                    @endif
+                </p>
+                
+                <!-- Preview Container -->
+                <div id="imagePreview" class="mt-4 hidden">
+                    <p class="text-gray-400 text-sm mb-2">New Image Preview:</p>
+                    <img src="" alt="Preview" class="max-w-md h-48 object-cover rounded-lg">
+                </div>
+            </div>
+
             <div class="mb-4">
                 <label class="block text-white mb-2 font-medium">Author Name *</label>
                 <input type="text" name="author_name" value="{{ old('author_name', $post->author_name) }}" required
@@ -76,4 +105,20 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // Image Preview
+        document.querySelector('input[name="image"]').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.querySelector('img').src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </x-layout>

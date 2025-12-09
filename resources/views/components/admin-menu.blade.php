@@ -9,5 +9,9 @@
            class="{{ request()->routeIs('admin.images.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-4 py-2 rounded-md text-sm font-medium transition">
             🖼️ Images
         </a>
+        <a href="{{ route('admin.structure.index') }}" 
+           class="{{ request()->routeIs('admin.structure.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-4 py-2 rounded-md text-sm font-medium transition">
+            👥 Structure
+        </a>
     </nav>
 </div>

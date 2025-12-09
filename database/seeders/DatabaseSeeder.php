@@ -8,12 +8,25 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use App\Models\StructurePosition;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+         $positions = [
+            ['position' => 'Ketua', 'name' => 'Ahmad Rifai', 'phone' => '081234567890', 'order' => 0],
+            ['position' => 'Wakil Ketua', 'name' => 'Budi Santoso', 'phone' => '081234567891', 'order' => 1],
+            ['position' => 'Sekretaris', 'name' => 'Citra Dewi', 'phone' => '081234567892', 'order' => 2],
+            ['position' => 'Bendahara', 'name' => 'Dani Prasetyo', 'phone' => '081234567893', 'order' => 3],
+            ['position' => 'Seksi Humas', 'name' => 'Eka Putri', 'phone' => '081234567894', 'order' => 4],
+            ['position' => 'Seksi Acara', 'name' => 'Fahmi Rahman', 'phone' => '081234567895', 'order' => 5],
+        ];
+
+        foreach ($positions as $position) {
+            StructurePosition::create($position);
+        }
         // Buat admin user
         $admin = User::create([
             'name' => 'Admin',
@@ -26,7 +39,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Buat categories secara berurutan
-        $categoryNames = ['Kegiatan Desa A', 'Kegiatan Desa B', 'Kegiatan Desa C', 'Kegiatan Desa D'];
+        $categoryNames = [
+            'Kegiatan Dusun Krajan', 
+            'Kegiatan Dusun Ketundan', 
+            'Kegiatan Dusun Telogosirih',
+            'Kegiatan Dusun Karang Lor', 
+            'Kegiatan Dusun Karang Kidul', 
+            'Kegiatan Dusun Nampu'];
         $categories = [];
         
         foreach ($categoryNames as $name) {

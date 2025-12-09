@@ -5,10 +5,12 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Image;
 use App\Models\Category;
+use App\Models\StructurePosition;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\StructureController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 
 Route::get('/', function () {
     $images = Image::where('is_active', true)
@@ -139,5 +141,20 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::get('/struktur', function () {
-    return view('struktur', ['title' => 'Strutur Organisasi']);
+    $structures = StructurePosition::where('is_active', true)
+        ->orderBy('order')
+        ->orderBy('created_at', 'asc')
+        ->get();
+    
+    return view('struktur', [
+        'title' => 'Struktur Organisasi',
+        'structures' => $structures
+    ]);
+});
+
+// Tambahkan di dalam admin group (setelah images route)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('posts', AdminPostController::class);
+    Route::resource('images', ImageController::class);
+    Route::resource('structure', StructureController::class); // ← TAMBAH INI
 });
