@@ -9,19 +9,12 @@ use App\Models\StructurePosition;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ImageController;
-use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 
 Route::get('/', function () {
-    $images = Image::where('is_active', true)
-        ->orderBy('order')
-        ->orderBy('created_at', 'desc')
-        ->get();
-    
     return view('home', [
-        'title' => 'Website Karang Taruna Desa Sangubanyu',
-        'images' => $images
+        'title' => 'Website Karang Taruna Desa Sangubanyu'
     ]);
 });
 
@@ -88,7 +81,7 @@ Route::get('/posts', function () {
     ]);
 })->name('posts.index');
 
-// Tambahkan named route untuk detail post
+// Detail post route
 Route::get('/posts/{post}', function (Post $post) {
     return view('post', ['title' => $post->title, 'post' => $post]);
 })->name('post.show');
@@ -127,20 +120,6 @@ Route::get('/about', function () {
     return view('about', ['title' => 'Tentang Kami', 'nama' => 'Faiz Nur Ramadhan']);
 });
 
-// Authentication routes
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-});
-
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-
-// Admin routes
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('posts', AdminPostController::class);
-    Route::resource('images', ImageController::class);
-});
-
 Route::get('/struktur', function () {
     $structures = StructurePosition::where('is_active', true)
         ->orderBy('order')
@@ -153,9 +132,17 @@ Route::get('/struktur', function () {
     ]);
 });
 
-// Tambahkan di dalam admin group (setelah images route)
+// Authentication routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('posts', AdminPostController::class);
     Route::resource('images', ImageController::class);
-    Route::resource('structure', StructureController::class); // ← TAMBAH INI
+    Route::resource('structure', StructureController::class);
 });

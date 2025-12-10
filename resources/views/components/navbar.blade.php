@@ -3,7 +3,7 @@
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
                 <a href="/" class="shrink-0">
-                    <img class="w-10 h-10" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Lambang_Kabupaten_Purworejo.png"
+                    <img class="w-10 h-10" src="../assets/kartur.png"
                         alt="Your Company" class="size-8" />
                 </a>
                 <div class="hidden md:block">

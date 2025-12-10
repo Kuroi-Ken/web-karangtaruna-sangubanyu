@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/kartur.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('kartur.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('kartur.png') }}">
+    
     <title>{{ $title }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

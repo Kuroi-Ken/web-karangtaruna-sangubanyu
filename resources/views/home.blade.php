@@ -1,25 +1,22 @@
 <x-layout :hideHeader="true" :transparent="true" :fullScreen="true">
     <x-slot:title>{{ $title }}</x-slot:title>
-
-    <!-- Hero Section dengan Background Image Full Screen -->
     <div class="h-screen w-full overflow-hidden">
-        <!-- Background Image -->
         <div class="absolute inset-0 z-0">
-            @if(isset($heroImage) && $heroImage)
+            @php
+                $heroImage = \App\Models\Image::where('is_hero', true)->first();
+            @endphp
+            
+            @if($heroImage)
                 <img src="{{ Storage::url($heroImage->path) }}"
                      alt="{{ $heroImage->title }}"
                      class="h-full w-full object-cover">
             @else
-                <img src="{{ asset('assets/test.jpeg') }}"
-                     alt="Background Hero"
-                     class="h-full w-full object-cover">
+                <div class="h-full w-full bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900"></div>
             @endif
 
-            <!-- Overlay Gradient -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
         </div>
 
-        <!-- Content -->
         <div class="relative z-10 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl mb-6 animate-fade-in">
@@ -66,9 +63,17 @@
                 </p>
             </div>
 
-            @if ($images->count() > 0)
+            @php
+                $galleryImages = \App\Models\Image::where('is_active', true)
+                    ->where('is_hero', false)
+                    ->orderBy('order')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            @endphp
+
+            @if ($galleryImages->count() > 0)
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach ($images as $image)
+                    @foreach ($galleryImages as $image)
                         <div class="bg-gray-800 rounded-lg overflow-hidden hover:shadow-xl transition-all hover:scale-105 group">
                             <div class="relative overflow-hidden">
                                 <img src="{{ Storage::url($image->path) }}"
@@ -79,15 +84,23 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                                 <!-- Title on Hover -->
-                                <div class="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <h3 class="text-white font-semibold text-lg">{{ $image->title }}</h3>
+                                    @if($image->description)
+                                        <p class="text-gray-300 text-sm mt-1">{{ Str::limit($image->description, 60) }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
             @else
-                <p class="text-gray-400 text-center">Belum ada gambar yang diupload.</p>
+                <div class="text-center py-12">
+                    <svg class="mx-auto h-16 w-16 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <p class="text-gray-400 text-lg">Belum ada gambar dalam galeri.</p>
+                </div>
             @endif
         </div>
     </div>

@@ -77,8 +77,12 @@ class ImageController extends Controller
 
                 DB::commit();
 
+                $message = $request->has('is_hero') 
+                    ? 'Image uploaded and set as hero background successfully!' 
+                    : 'Image uploaded successfully!';
+
                 return redirect()->route('admin.images.index')
-                    ->with('success', 'Image uploaded successfully!');
+                    ->with('success', $message);
             } catch (\Exception $e) {
                 DB::rollBack();
                 return back()->with('error', 'Failed to upload image: ' . $e->getMessage());
@@ -137,8 +141,12 @@ class ImageController extends Controller
 
             DB::commit();
 
+            $message = $request->has('is_hero') 
+                ? 'Image updated and set as hero background successfully!' 
+                : 'Image updated successfully!';
+
             return redirect()->route('admin.images.index')
-                ->with('success', 'Image updated successfully!');
+                ->with('success', $message);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Failed to update image: ' . $e->getMessage());
@@ -147,6 +155,12 @@ class ImageController extends Controller
 
     public function destroy(Image $image)
     {
+        // Jangan izinkan hapus jika ini hero image
+        if ($image->is_hero) {
+            return redirect()->route('admin.images.index')
+                ->with('error', 'Cannot delete hero background image. Please set another image as hero first.');
+        }
+
         Storage::disk('public')->delete($image->path);
         $image->delete();
 
