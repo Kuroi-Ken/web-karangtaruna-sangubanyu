@@ -1,18 +1,11 @@
-// public/js/home.js
-
-// Smooth scroll to content when clicking scroll indicator
 document.addEventListener('DOMContentLoaded', function() {
     const scrollIndicator = document.querySelector('a[href="#content"]');
     
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', (e) => {
             e.preventDefault();
-
-            // Find the content section
             const target = document.querySelector('#content');
-
             if (target) {
-                // Scroll to element with offset (navbar height = 64px + 20px margin)
                 window.scrollTo({
                     top: target.offsetTop - 84,
                     behavior: 'smooth',
@@ -22,61 +15,71 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Intersection Observer for scroll reveal animations
+// Intersection Observer for scroll reveal animations (Gallery & Blog sections only)
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        // Check if the element is in the viewport
         if (entry.isIntersecting) {
-            entry.target.classList.add('show'); // Add 'show' class to trigger transition
+            entry.target.classList.add('show');
             observer.unobserve(entry.target); // Stop observing after it becomes visible
         }
     });
 }, {
-    threshold: 0.3, // Trigger when 30% of the element is in view
-    rootMargin: '0px 0px -50px 0px' // Trigger slightly before element fully enters viewport
+    threshold: 0.2, 
+    rootMargin: '0px 0px -50px 0px' 
 });
 
-// Observe all sections that need scroll reveal animation
 document.addEventListener('DOMContentLoaded', function() {
-    const elementsToObserve = document.querySelectorAll(
-        '.scroll-reveal, .gallery-section, .blog-section, .section-animate'
-    );
+    const sections = document.querySelectorAll('.gallery-section, .blog-section');
     
-    elementsToObserve.forEach((element) => {
-        // Add initial hidden state
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(50px)';
-        element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-        
-        // Start observing
+    // Debug: Log found sections
+    console.log('Found sections:', sections.length);
+    
+    sections.forEach((element) => {
         observer.observe(element);
+        console.log('Observing:', element.className);
+    });
+    
+    sections.forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            console.log('Section already in viewport, showing immediately');
+            element.classList.add('show');
+        }
     });
 });
 
-// Carousel functionality
+// Carousel functionality - SIMPLIFIED & FIXED
 document.addEventListener('DOMContentLoaded', function() {
-    let currentSlide = 0;
     const carousel = document.getElementById('gallery-carousel');
-    const slides = carousel?.children.length || 0;
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const dots = document.querySelectorAll('.carousel-dot');
+    
+    if (!carousel) return;
+    
+    const slides = carousel.children.length;
+    let currentSlide = 0;
+    let autoPlayInterval;
 
+    // Main update function
     function updateCarousel() {
-        if (carousel && slides > 0) {
-            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-            
-            // Update dots
-            dots.forEach((dot, index) => {
-                if (index === currentSlide) {
-                    dot.classList.add('bg-indigo-600', 'w-8');
-                    dot.classList.remove('bg-gray-600');
-                } else {
-                    dot.classList.remove('bg-indigo-600', 'w-8');
-                    dot.classList.add('bg-gray-600');
-                }
-            });
-        }
+        if (slides === 0) return;
+        
+        // Update carousel position
+        carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            if (index === currentSlide) {
+                dot.classList.add('bg-indigo-600', 'w-8');
+                dot.classList.remove('bg-gray-600');
+            } else {
+                dot.classList.remove('bg-indigo-600', 'w-8');
+                dot.classList.add('bg-gray-600');
+            }
+        });
     }
 
     // Previous button
@@ -84,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         prevBtn.addEventListener('click', () => {
             currentSlide = (currentSlide - 1 + slides) % slides;
             updateCarousel();
+            resetAutoPlay();
         });
     }
 
@@ -92,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.addEventListener('click', () => {
             currentSlide = (currentSlide + 1) % slides;
             updateCarousel();
+            resetAutoPlay();
         });
     }
 
@@ -100,50 +105,55 @@ document.addEventListener('DOMContentLoaded', function() {
         dot.addEventListener('click', () => {
             currentSlide = index;
             updateCarousel();
+            resetAutoPlay();
         });
     });
 
-    // Auto-play carousel every 5 seconds
-    if (slides > 1) {
-        setInterval(() => {
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (!carousel) return;
+        
+        if (e.key === 'ArrowLeft') {
+            currentSlide = (currentSlide - 1 + slides) % slides;
+            updateCarousel();
+            resetAutoPlay();
+        } else if (e.key === 'ArrowRight') {
             currentSlide = (currentSlide + 1) % slides;
             updateCarousel();
-        }, 5000);
-    }
-});
-
-// Add keyboard navigation for carousel
-document.addEventListener('keydown', function(e) {
-    const carousel = document.getElementById('gallery-carousel');
-    if (!carousel) return;
-
-    const slides = carousel.children.length;
-    let currentSlide = Math.round(Math.abs(parseInt(carousel.style.transform?.match(/-?\d+/)?.[0] || 0) / 100));
-
-    if (e.key === 'ArrowLeft') {
-        currentSlide = (currentSlide - 1 + slides) % slides;
-        carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-        updateDots(currentSlide);
-    } else if (e.key === 'ArrowRight') {
-        currentSlide = (currentSlide + 1) % slides;
-        carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-        updateDots(currentSlide);
-    }
-});
-
-// Helper function to update dots
-function updateDots(currentIndex) {
-    const dots = document.querySelectorAll('.carousel-dot');
-    dots.forEach((dot, index) => {
-        if (index === currentIndex) {
-            dot.classList.add('bg-indigo-600', 'w-8');
-            dot.classList.remove('bg-gray-600');
-        } else {
-            dot.classList.remove('bg-indigo-600', 'w-8');
-            dot.classList.add('bg-gray-600');
+            resetAutoPlay();
         }
     });
-}
+
+    // Auto-play functionality
+    function startAutoPlay() {
+        if (slides > 1) {
+            autoPlayInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides;
+                updateCarousel();
+            }, 5000);
+        }
+    }
+
+    function resetAutoPlay() {
+        clearInterval(autoPlayInterval);
+        startAutoPlay();
+    }
+
+    // Initialize
+    updateCarousel();
+    startAutoPlay();
+
+    // Pause autoplay when user hovers over carousel
+    if (carousel.parentElement) {
+        carousel.parentElement.addEventListener('mouseenter', () => {
+            clearInterval(autoPlayInterval);
+        });
+        
+        carousel.parentElement.addEventListener('mouseleave', () => {
+            startAutoPlay();
+        });
+    }
+});
 
 // Parallax effect for hero section
 window.addEventListener('scroll', function() {

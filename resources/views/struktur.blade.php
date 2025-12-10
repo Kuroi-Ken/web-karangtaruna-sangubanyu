@@ -100,10 +100,10 @@
                         </div>
                     @endif
                 @endforeach
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
                     @foreach ($structures as $index => $structure)
                         @if($index > 1)
-                            <div class="bg-gray-800 rounded-xl overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-700 hover:border-indigo-500">
+                            <div class="bg-gray-800 rounded-xl overflow-hidden hover:shadow-xl mx-8 hover:scale-105 transition-all duration-300 border border-gray-700 hover:border-indigo-500">
                                 <div class="relative">
                                     @if($structure->photo)
                                         <img src="{{ Storage::url($structure->photo) }}" 

@@ -1,36 +1,39 @@
 <x-layout>
     <x-slot:title>Manage Posts</x-slot:title>
 
-    <div class="py-6">
+    <div class="py-4 sm:py-6">
         <x-admin-menu />
         
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-white">Blog Posts Management</h2>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-white">Blog Posts Management</h2>
             <a href="{{ route('admin.posts.create') }}"
-                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
-                Create New Post
+                class="w-full sm:w-auto text-center bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition text-sm sm:text-base">
+                + Create New Post
             </a>
         </div>
 
         @if (session('success'))
-            <div class="bg-green-500/10 border border-green-500 text-green-500 px-4 py-3 rounded mb-4">
+            <div class="bg-green-500/10 border border-green-500 text-green-500 px-4 py-3 rounded mb-4 text-sm">
                 {{ session('success') }}
             </div>
         @endif
 
         <!-- Search and Filter Form -->
         <div class="bg-gray-800 rounded-lg p-4 mb-6">
-            <form method="GET" action="{{ route('admin.posts.index') }}" class="flex gap-4 flex-wrap">
-                <div class="flex-1 min-w-[200px]">
+            <form method="GET" action="{{ route('admin.posts.index') }}" class="space-y-3">
+                <!-- Search Input -->
+                <div>
                     <input type="text" 
                            name="search" 
                            value="{{ request('search') }}"
-                           placeholder="Search posts by title, content, author, or category..." 
-                           class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                           placeholder="Search posts..." 
+                           class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400">
                 </div>
-                <div class="min-w-[150px]">
+
+                <!-- Category Filter -->
+                <div>
                     <select name="category" 
-                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         <option value="">All Categories</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
@@ -39,20 +42,25 @@
                         @endforeach
                     </select>
                 </div>
-                <button type="submit" 
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition">
-                    Search
-                </button>
-                @if(request('search') || request('category'))
-                    <a href="{{ route('admin.posts.index') }}" 
-                       class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition">
-                        Clear
-                    </a>
-                @endif
+
+                <!-- Action Buttons -->
+                <div class="flex gap-2">
+                    <button type="submit" 
+                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition text-sm">
+                        Search
+                    </button>
+                    @if(request('search') || request('category'))
+                        <a href="{{ route('admin.posts.index') }}" 
+                           class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition text-sm">
+                            Clear
+                        </a>
+                    @endif
+                </div>
             </form>
         </div>
 
-        <div class="bg-gray-800 rounded-lg overflow-hidden">
+        <!-- Desktop Table View -->
+        <div class="hidden lg:block bg-gray-800 rounded-lg overflow-hidden">
             <table class="w-full">
                 <thead class="bg-gray-700">
                     <tr>
@@ -117,6 +125,84 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="lg:hidden space-y-4">
+            @forelse ($posts as $post)
+                <div class="bg-gray-800 rounded-lg p-4 hover:bg-gray-700/50 transition">
+                    <!-- Post Header -->
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-white font-semibold text-base mb-1 line-clamp-2">
+                                {{ $post->title }}
+                            </h3>
+                            <span class="inline-block px-2 py-1 text-xs rounded bg-indigo-500/10 text-indigo-400">
+                                {{ $post->category->activity }}
+                            </span>
+                        </div>
+                        @if($post->image)
+                            <img src="{{ Storage::url($post->image) }}" 
+                                 alt="{{ $post->title }}"
+                                 class="w-16 h-16 rounded object-cover ml-3 flex-shrink-0">
+                        @endif
+                    </div>
+
+                    <!-- Post Excerpt -->
+                    <p class="text-gray-400 text-sm mb-3 line-clamp-2">
+                        {{ Str::limit($post->body, 100) }}
+                    </p>
+
+                    <!-- Post Meta -->
+                    <div class="flex items-center text-xs text-gray-400 mb-3 pb-3 border-b border-gray-700">
+                        <div class="flex items-center gap-2 flex-1">
+                            <img class="w-6 h-6 rounded-full" 
+                                 src="https://ui-avatars.com/api/?name={{ urlencode($post->author_name ?? $post->author->name) }}&background=6366f1&color=fff" 
+                                 alt="{{ $post->author_name ?? $post->author->name }}">
+                            <span class="truncate">{{ $post->author_name ?? $post->author->name }}</span>
+                        </div>
+                        <span class="text-gray-500">{{ $post->created_at->format('M d, Y') }}</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2">
+                        <a href="{{ route('admin.posts.edit', $post) }}"
+                            class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition">
+                            Edit
+                        </a>
+                        <form action="{{ route('admin.posts.destroy', $post) }}" 
+                              method="POST"
+                              onsubmit="return confirm('Are you sure you want to delete this post?')"
+                              class="flex-1">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                                    class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm font-medium transition">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div class="bg-gray-800 rounded-lg p-8 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <p class="text-gray-400">
+                        @if(request('search') || request('category'))
+                            No posts found matching your search criteria.
+                        @else
+                            No posts found. Create your first post!
+                        @endif
+                    </p>
+                    @if(!request('search') && !request('category'))
+                        <a href="{{ route('admin.posts.create') }}" 
+                           class="inline-block mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition">
+                            Create First Post
+                        </a>
+                    @endif
+                </div>
+            @endforelse
         </div>
 
         @if($posts->isNotEmpty())
