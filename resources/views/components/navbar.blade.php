@@ -1,4 +1,4 @@
-<nav class="bg-gray-800 sticky top-0 z-50 shadow-lg">
+<nav class="bg-gray-800 sticky top-0 z-[100] shadow-lg">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             <!-- Logo & Desktop Menu -->
@@ -49,8 +49,8 @@
                 </div>
             </div>
 
-            <!-- Mobile menu button -->
-            <div class="flex md:hidden">
+            <!-- Mobile menu button - PERBAIKAN DENGAN Z-INDEX SUPER TINGGI -->
+            <div class="flex md:hidden relative z-[150]">
                 <button type="button" 
                         id="mobile-menu-button"
                         class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -72,7 +72,7 @@
 
     <!-- Mobile menu (hidden by default) -->
     <div id="mobile-menu"
-     class="md:hidden hidden opacity-0 -translate-y-3 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
+         class="md:hidden hidden opacity-0 -translate-y-3 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
         <div class="border-t border-gray-700 pb-3 pt-4">
             @guest
             <div class="px-2">
@@ -100,18 +100,18 @@
             @endguest
         </div>
         <div class="space-y-1 px-2 pb-3 pt-2">
-            <x-navlink href="/" :active="request()->is('/')" class=" flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Home</x-navlink>
-            <x-navlink href="/posts" :active="request()->is('posts')" class=" flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Blog</x-navlink>
-            <x-navlink href="/contact" :active="request()->is('contact')" class=" flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Kontak</x-navlink>
-            <x-navlink href="/struktur" :active="request()->is('struktur')" class=" flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Struktur</x-navlink>
-            <x-navlink href="/about" :active="request()->is('about')" class=" flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">About</x-navlink>
+            <x-navlink href="/" :active="request()->is('/')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Home</x-navlink>
+            <x-navlink href="/posts" :active="request()->is('posts')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Blog</x-navlink>
+            <x-navlink href="/contact" :active="request()->is('contact')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Kontak</x-navlink>
+            <x-navlink href="/struktur" :active="request()->is('struktur')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Struktur</x-navlink>
+            <x-navlink href="/about" :active="request()->is('about')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">About</x-navlink>
             @auth
-            <x-navlink href="/admin/posts" :active="request()->is('admin/*')" class=" flex justify-center w-full text-center py-1 text-white hover:bg-white/5">Admin Panel</x-navlink>
+            <x-navlink href="/admin/posts" :active="request()->is('admin/*')" class="flex justify-center w-full text-center py-1 text-white rounded-lg hover:bg-white/5">Admin Panel</x-navlink>
             @endauth
         </div>
-
-
     </div>
 </nav>
 
-<script src="js/navbar.js"></script>
+{{-- INLINE SCRIPT SEBAGAI FALLBACK --}}
+<script src="{{ asset('js/navbar.js') }}">
+</script>

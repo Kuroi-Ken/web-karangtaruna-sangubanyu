@@ -19,7 +19,7 @@
         @endif
 
         <!-- Search and Filter Form -->
-        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+        <div class="sticky top-16 z-10 bg-gray-900/95 backdrop-blur-sm -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 shadow-lg border-b border-gray-700">
             <form method="GET" action="{{ route('admin.posts.index') }}" class="space-y-3">
                 <!-- Search Input -->
                 <div>
