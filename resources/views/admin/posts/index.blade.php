@@ -19,45 +19,56 @@
         @endif
 
         <!-- Search and Filter Form -->
-        <div class="sticky top-16 z-10 bg-gray-900/95 backdrop-blur-sm -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 shadow-lg border-b border-gray-700">
-            <form method="GET" action="{{ route('admin.posts.index') }}" class="space-y-3">
-                <!-- Search Input -->
-                <div>
-                    <input type="text" 
-                           name="search" 
-                           value="{{ request('search') }}"
-                           placeholder="Search posts..." 
-                           class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400">
-                </div>
+<div class="sticky top-16 z-10 bg-gray-900/95 backdrop-blur-sm -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 shadow-lg border-b border-gray-700">
+    <form method="GET" action="{{ route('admin.posts.index') }}" class="space-y-3">
 
-                <!-- Category Filter -->
-                <div>
-                    <select name="category" 
-                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="">All Categories</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                {{ $category->activity }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex gap-2">
-                    <button type="submit" 
-                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition text-sm">
-                        Search
-                    </button>
-                    @if(request('search') || request('category'))
-                        <a href="{{ route('admin.posts.index') }}" 
-                           class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition text-sm">
-                            Clear
-                        </a>
-                    @endif
-                </div>
-            </form>
+        <!-- Search Input -->
+        <div>
+            <input type="text" 
+                   name="search" 
+                   value="{{ request('search') }}"
+                   placeholder="Search posts..." 
+                   class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400">
         </div>
+
+        <!-- Category Filter -->
+        <div>
+            <select name="category" 
+                    class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="">All Categories</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                        {{ $category->activity }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Filter Tanggal -->
+        <div>
+            <input type="date"
+                   name="date"
+                   value="{{ request('date') }}"
+                   class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2">
+            <button type="submit" 
+                    class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition text-sm">
+                Search
+            </button>
+
+            @if(request('search') || request('category') || request('day') || request('date'))
+                <a href="{{ route('admin.posts.index') }}" 
+                   class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition text-sm">
+                    Clear
+                </a>
+            @endif
+        </div>
+    </form>
+</div>
+
 
         <!-- Desktop Table View -->
         <div class="hidden lg:block bg-gray-800 rounded-lg overflow-hidden">

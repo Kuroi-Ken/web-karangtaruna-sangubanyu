@@ -3,14 +3,16 @@
 
     <style>
         .gallery-section,
-        .blog-section {
+        .blog-section,
+        .leadership-section {
             opacity: 0;
             transform: translateY(100px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
         .gallery-section.show,
-        .blog-section.show {
+        .blog-section.show,
+        .leadership-section.show {
             opacity: 1;
             transform: translateY(0);
         }
@@ -19,7 +21,7 @@
         .hero-subtitle,
         .hero-buttons {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(100px);
         }
 
         .hero-title {
@@ -97,7 +99,7 @@
 
     <!-- Content Section -->
     <div id="content" class="bg-gray-900">
-        
+
         <!-- Gallery Carousel Section -->
         <div class="gallery-section mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
             <div class="text-center mb-8 sm:mb-12">
@@ -124,7 +126,7 @@
                         <div id="gallery-carousel" class="flex transition-transform duration-500 ease-out">
                             @foreach ($galleryImages as $image)
                                 <div class="min-w-full flex-shrink-0">
-                                    <div class="relative h-[250px] sm:h-[300px] md:h-[400px] group overflow-hidden">
+                                    <div class="relative h-[350px] sm:h-[300px] md:h-[500px] group overflow-hidden">
                                         <img src="{{ Storage::url($image->path) }}"
                                              alt="{{ $image->title }}"
                                              class="w-full h-full object-cover object-center">
@@ -273,6 +275,139 @@
                 </div>
             @endif
         </div>
+
+        {{-- structure --}}
+        <div class="leadership-section mx-12 mb-20 max-w-7xl px-4 py-12 rounded-xl sm:py-16 sm:px-6 lg:px-8 border-2 border-red-500">
+            <div class="text-center mb-8 sm:mb-12">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
+                    Pimpinan Kami
+                </h2>
+                <p class="text-gray-400 text-base sm:text-lg px-4">
+                    Pemimpin yang membawa visi dan misi Karang Taruna
+                </p>
+            </div>
+
+            @php
+                // Get all active structure positions ordered
+                $structures = \App\Models\StructurePosition::where('is_active', true)
+                    ->orderBy('order')
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+                
+                // Find Ketua (not Wakil Ketua)
+                $ketua = $structures->first(function ($item) {
+                    return stripos($item->position, 'Ketua') !== false && 
+                           stripos($item->position, 'Wakil') === false;
+                });
+                
+                // Find Wakil Ketua
+                $wakilKetua = $structures->first(function ($item) {
+                    return stripos($item->position, 'Wakil') !== false;
+                });
+            @endphp
+
+            @if($ketua || $wakilKetua)
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 max-w-4xl mx-auto">
+                    @if($ketua)
+                        <div class="bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl mx-12 hover:scale-105 transition-all duration-300 group border-2 border-indigo-500/50">
+                            <div class="relative h-64 sm:h-80 overflow-hidden">
+                                @if($ketua->photo)
+                                    <img src="{{ Storage::url($ketua->photo) }}" 
+                                         alt="{{ $ketua->name }}"
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
+                                        <svg class="w-24 h-24 sm:w-32 sm:h-32 text-white/30" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                @endif
+                                
+                                <!-- Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                                    <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                                        <span class="inline-block px-3 py-1 text-xs font-semibold bg-indigo-600 text-white rounded-full mb-2">
+                                            {{ $ketua->position }}
+                                        </span>
+                                        <h3 class="text-white font-bold text-xl sm:text-2xl mb-2">{{ $ketua->name }}</h3>
+                                        @if($ketua->phone)
+                                            <a href="tel:{{ $ketua->phone }}" 
+                                               class="text-gray-300 hover:text-indigo-400 text-sm flex items-center gap-2 transition">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                                </svg>
+                                                {{ $ketua->phone }}
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($wakilKetua)
+                        <div class="bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl mx-12 hover:scale-105 transition-all duration-300 group border-2 border-purple-500/50">
+                            <div class="relative h-64 sm:h-80 overflow-hidden">
+                                @if($wakilKetua->photo)
+                                    <img src="{{ Storage::url($wakilKetua->photo) }}" 
+                                         alt="{{ $wakilKetua->name }}"
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
+                                        <svg class="w-24 h-24 sm:w-32 sm:h-32 text-white/30" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                @endif
+                                
+                                <!-- Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                                    <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                                        <span class="inline-block px-3 py-1 text-xs font-semibold bg-purple-600 text-white rounded-full mb-2">
+                                            {{ $wakilKetua->position }}
+                                        </span>
+                                        <h3 class="text-white font-bold text-xl sm:text-2xl mb-2">{{ $wakilKetua->name }}</h3>
+                                        @if($wakilKetua->phone)
+                                            <a href="tel:{{ $wakilKetua->phone }}" 
+                                               class="text-gray-300 hover:text-purple-400 text-sm flex items-center gap-2 transition">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                                </svg>
+                                                {{ $wakilKetua->phone }}
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- View Structure Button -->
+                <div class="text-center">
+                    <a href="/struktur" 
+                       class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all hover:scale-105 shadow-lg text-sm sm:text-base w-full sm:w-auto justify-center">
+                        <span>Lihat Struktur Lengkap</span>
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                </div>
+            @else
+                <div class="text-center py-12 px-4">
+                    <svg class="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    <p class="text-gray-400 text-base sm:text-lg">Informasi pimpinan belum tersedia.</p>
+                </div>
+            @endif
+        </div>
+
+        {{-- Information --}}
+        <div>
+            
+        </div>
+
     </div>
     <script src="{{ asset('js/home.js') }}"></script>
 </x-layout>

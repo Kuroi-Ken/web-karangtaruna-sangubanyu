@@ -73,7 +73,7 @@
     <!-- Mobile menu (hidden by default) -->
     <div id="mobile-menu"
          class="md:hidden hidden opacity-0 -translate-y-3 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
-        <div class="border-t border-gray-700 pb-3 pt-4">
+        <div class="border-t border-gray-700 pt-4">
             @guest
             <div class="px-2">
                 <a href="{{ route('login') }}"
@@ -88,30 +88,29 @@
                     <div class="text-sm font-medium justify-center flex text-gray-400">{{ auth()->user()->email }}</div>
                 </div>
             </div>
-            <div class="px-2">
+            <div class="px-2 justify-center flex ">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="block w-full rounded-md bg-gray-700 px-3 py-2 text-center text-base font-medium text-white hover:bg-gray-600 transition">
+                        class="block rounded-md bg-gray-700 px-16  py-2 text-center text-base font-medium text-white hover:bg-gray-600 transition">
                         Logout
                     </button>
                 </form>
             </div>
             @endguest
         </div>
-        <div class="space-y-1 px-2 pb-3 pt-2">
+        <div class="space-y-1 px-2 pb-6 pt-2 ">
             <x-navlink href="/" :active="request()->is('/')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Home</x-navlink>
-            <x-navlink href="/posts" :active="request()->is('posts')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Blog</x-navlink>
-            <x-navlink href="/contact" :active="request()->is('contact')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Kontak</x-navlink>
-            <x-navlink href="/struktur" :active="request()->is('struktur')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Struktur</x-navlink>
-            <x-navlink href="/about" :active="request()->is('about')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">About</x-navlink>
+            <x-navlink href="/posts" :active="request()->is('posts')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Blog</x-navlink>
+            <x-navlink href="/contact" :active="request()->is('contact')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Kontak</x-navlink>
+            <x-navlink href="/struktur" :active="request()->is('struktur')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Struktur</x-navlink>
+            <x-navlink href="/about" :active="request()->is('about')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">About</x-navlink>
             @auth
-            <x-navlink href="/admin/posts" :active="request()->is('admin/*')" class="flex justify-center w-full text-center py-1 text-white rounded-lg hover:bg-white/5">Admin Panel</x-navlink>
+            <x-navlink href="/admin/posts" :active="request()->is('admin/*')" class="flex justify-center w-fulltext-center py-1 text-white rounded-lg hover:bg-white/5">Admin Panel</x-navlink>
             @endauth
         </div>
     </div>
 </nav>
 
-{{-- INLINE SCRIPT SEBAGAI FALLBACK --}}
 <script src="{{ asset('js/navbar.js') }}">
 </script>
