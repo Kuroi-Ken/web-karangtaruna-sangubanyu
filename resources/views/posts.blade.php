@@ -26,7 +26,7 @@
                             Search
                         </button>
 
-                        @if(request('search') || request('category') || request('author') || request('sort'))
+                        @if(request('search') || request('category') || request('author') || request('sort') || request('date'))
                             <a href="{{ url('/posts') }}" 
                                class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition text-sm whitespace-nowrap">
                                 Clear
@@ -47,16 +47,16 @@
                     </button>
 
                     <!-- Active Filters Badge -->
-                    @if(request('category') || request('author') || request('sort'))
+                    @if(request('category') || request('author') || request('sort') || request('date'))
                         <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-medium">
-                            {{ collect([request('category'), request('author'), request('sort')])->filter()->count() }} filter(s) active
+                            {{ collect([request('category'), request('author'), request('sort'), request('date')])->filter()->count() }} filter(s) active
                         </span>
                     @endif
                 </div>
 
                 <!-- Advanced Filters (Hidden by Default) -->
                 <div id="advancedFilters" class="hidden space-y-3 pt-3 border-t border-gray-700">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         <!-- Category Filter -->
                         <div>
                             <label class="block text-gray-400 text-xs mb-1">Category</label>
@@ -85,6 +85,16 @@
                             </select>
                         </div>
 
+                        <!-- Date Filter -->
+                        <div>
+                            <label class="block text-gray-400 text-xs mb-1">Date</label>
+                            <input type="date"
+                                   name="date"
+                                   value="{{ request('date') }}"
+                                   max="{{ date('Y-m-d') }}"
+                                   class="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-700">
+                        </div>
+
                         <!-- Sort Filter -->
                         <div>
                             <label class="block text-gray-400 text-xs mb-1">Sort By</label>
@@ -108,7 +118,7 @@
                 </div>
 
                 <!-- Active Filters Display -->
-                @if(request('search') || request('category') || request('author') || request('sort'))
+                @if(request('search') || request('category') || request('author') || request('sort') || request('date'))
                     <div class="pt-3 border-t border-gray-700">
                         <div class="flex flex-wrap gap-2 items-center">
                             <span class="text-gray-400 text-xs">Active filters:</span>
@@ -140,6 +150,14 @@
                                 </span>
                             @endif
 
+                            @if(request('date'))
+                                <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs flex items-center gap-1">
+                                    Date: {{ \Carbon\Carbon::parse(request('date'))->locale('id')->isoFormat('D MMMM Y') }}
+                                    <a href="{{ url('/posts?' . http_build_query(array_filter(request()->except('date')))) }}" 
+                                    class="hover:text-white ml-1">×</a>
+                                </span>
+                            @endif
+
                             @if(request('sort') && request('sort') != 'latest')
                                 <span class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-xs flex items-center gap-1">
                                     Sort: {{ ucfirst(request('sort')) }}
@@ -162,6 +180,8 @@
             {{ Str::plural('post', $posts->count()) }}
         </p>
     @endif
+
+    {{ $posts->links() }}
 
     <!-- POSTS LIST -->
     <section class="bg-white dark:bg-gray-900">
@@ -214,7 +234,7 @@
                         </div>
 
                         <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                            <a href="{{ url('/categories/' . $post->category->slug) }}" 
+                            <a href="{{ url('/posts?category=' . $post->category->id) }}" 
                                class="inline-flex items-center text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-indigo-500 transition">
                                 <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
@@ -238,7 +258,7 @@
                                 @endif
                             </p>
 
-                            @if(request('search'))
+                            @if(request('search') || request('category') || request('author') || request('date'))
                                 <a href="{{ url('/posts') }}" 
                                    class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition">
                                     View All Posts
@@ -265,7 +285,7 @@
         });
 
         // Auto-open if any advanced filter is active
-        @if(request('category') || request('author') || (request('sort') && request('sort') != 'latest'))
+        @if(request('category') || request('author') || request('date') || (request('sort') && request('sort') != 'latest'))
             advancedFilters.classList.remove('hidden');
             advancedIcon.classList.add('rotate-180');
         @endif

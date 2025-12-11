@@ -45,24 +45,9 @@ Route::get('/posts', function () {
         $query->where('author_name', request('author'));
     }
     
-    // Filter by date
+    // Filter by specific date
     if (request('date')) {
         $query->whereDate('created_at', request('date'));
-    }
-    
-    // Filter by date range
-    if (request('date_from')) {
-        $query->whereDate('created_at', '>=', request('date_from'));
-    }
-    
-    if (request('date_to')) {
-        $query->whereDate('created_at', '<=', request('date_to'));
-    }
-    
-    // Filter by month and year
-    if (request('month') && request('year')) {
-        $query->whereMonth('created_at', request('month'))
-              ->whereYear('created_at', request('year'));
     }
     
     // Sorting
@@ -84,7 +69,7 @@ Route::get('/posts', function () {
             break;
     }
     
-    $posts = $query->get();
+    $posts = $query->paginate(9)->withQueryString();
     $categories = Category::orderBy('activity', 'asc')->get();
     
     // Get unique author names
@@ -121,20 +106,20 @@ Route::get('/authors/{user:username}', function (User $user) {
 });
 
 Route::get('/categories/{category:slug}', function (Category $category) {
-    return view('posts', [
-        'title' => count($category->post) . ' Articles in: ' . $category->activity, 
-        'posts' => $category->post,
-        'categories' => Category::orderBy('activity', 'asc')->get(),
-        'authors' => Post::whereNotNull('author_name')
-            ->select('author_name')
-            ->distinct()
-            ->orderBy('author_name', 'asc')
-            ->pluck('author_name')
-    ]);
+    // Redirect ke /posts dengan parameter category untuk konsistensi
+    return redirect('/posts?category=' . $category->id);
 });
 
 Route::get('/contact', function () {
-    return view('contact', ['title' => 'Kontak']);
+    $contacts = \App\Models\Contact::where('is_active', true)
+        ->orderBy('order')
+        ->orderBy('created_at', 'asc')
+        ->get();
+    
+    return view('contact', [
+        'title' => 'Kontak',
+        'contacts' => $contacts
+    ]);
 });
 
 Route::get('/about', function () {
@@ -166,24 +151,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('posts', AdminPostController::class);
     Route::resource('images', ImageController::class);
     Route::resource('structure', StructureController::class);
-});
-
-Route::get('/contact', function () {
-    $contacts = \App\Models\Contact::where('is_active', true)
-        ->orderBy('order')
-        ->orderBy('created_at', 'asc')
-        ->get();
-    
-    return view('contact', [
-        'title' => 'Kontak',
-        'contacts' => $contacts
-    ]);
-});
-
-// Admin routes - tambahkan di dalam middleware group
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('posts', AdminPostController::class);
-    Route::resource('images', ImageController::class);
-    Route::resource('structure', StructureController::class);
-    Route::resource('contacts', ContactController::class); // TAMBAHKAN INI
+    Route::resource('contacts', ContactController::class);
 });
