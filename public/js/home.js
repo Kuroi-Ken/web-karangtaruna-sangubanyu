@@ -52,98 +52,82 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Carousel functionality - SIMPLIFIED & FIXED
 document.addEventListener('DOMContentLoaded', function() {
-    // Carousel functionality
-        let currentIndex = 0;
-        const carousel = document.getElementById('gallery-carousel');
-        const dots = document.querySelectorAll('.carousel-dot');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+    let currentSlide = 0;
+    const carousel = document.getElementById('gallery-carousel');
+    const slides = carousel?.children;
+    const dots = document.querySelectorAll('.carousel-dot');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
 
-        if (carousel && dots.length > 0) {
-            const totalSlides = dots.length;
-
-            function updateCarousel() {
-                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-                
-                // Update dots
-                dots.forEach((dot, index) => {
-                    if (index === currentIndex) {
-                        dot.classList.add('bg-indigo-600', 'w-8');
-                        dot.classList.remove('bg-gray-600', 'w-3');
-                    } else {
-                        dot.classList.remove('bg-indigo-600', 'w-8');
-                        dot.classList.add('bg-gray-600', 'w-3');
-                    }
-                });
-            }
-
-            function nextSlide() {
-                currentIndex = (currentIndex + 1) % totalSlides;
-                updateCarousel();
-            }
-
-            function prevSlide() {
-                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-                updateCarousel();
-            }
-
-            // Button event listeners
-            if (nextBtn) {
-                nextBtn.addEventListener('click', nextSlide);
-            }
-            
-            if (prevBtn) {
-                prevBtn.addEventListener('click', prevSlide);
-            }
-
-            // Dot click handlers
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    currentIndex = index;
-                    updateCarousel();
-                });
-            });
-
-            // Auto-play carousel
-            setInterval(nextSlide, 5000);
-        }
-
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all animated sections
-        const animatedSections = document.querySelectorAll('.gallery-section, .blog-section, .leadership-section');
-        animatedSections.forEach(section => {
-            if (section) {
-                observer.observe(section);
+    function updateCarousel() {
+        if (!carousel || !slides) return;
+        carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            if (index === currentSlide) {
+                dot.classList.add('bg-indigo-600', 'w-8');
+                dot.classList.remove('bg-gray-600', 'w-3');
+            } else {
+                dot.classList.remove('bg-indigo-600', 'w-8');
+                dot.classList.add('bg-gray-600', 'w-3');
             }
         });
+    }
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentSlide = currentSlide > 0 ? currentSlide - 1 : slides.length - 1;
+            updateCarousel();
         });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentSlide = currentSlide < slides.length - 1 ? currentSlide + 1 : 0;
+            updateCarousel();
+        });
+    }
+
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            updateCarousel();
+        });
+    });
+
+    // Auto-advance carousel
+    if (carousel && slides && slides.length > 1) {
+        setInterval(() => {
+            currentSlide = currentSlide < slides.length - 1 ? currentSlide + 1 : 0;
+            updateCarousel();
+        }, 5000);
+    }
+
+    // Scroll reveal animation
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe all animated sections
+    const animatedSections = document.querySelectorAll(
+        '.gallery-section, .blog-section, .leadership-section, .contact-section'
+    );
+
+    animatedSections.forEach(section => {
+        observer.observe(section);
+    });
 });
 
 // Parallax effect for hero section
@@ -157,3 +141,4 @@ window.addEventListener('scroll', function() {
         }
     }
 });
+

@@ -9,6 +9,7 @@ use App\Models\StructurePosition;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 
@@ -42,6 +43,26 @@ Route::get('/posts', function () {
     // Filter by author name
     if (request('author')) {
         $query->where('author_name', request('author'));
+    }
+    
+    // Filter by date
+    if (request('date')) {
+        $query->whereDate('created_at', request('date'));
+    }
+    
+    // Filter by date range
+    if (request('date_from')) {
+        $query->whereDate('created_at', '>=', request('date_from'));
+    }
+    
+    if (request('date_to')) {
+        $query->whereDate('created_at', '<=', request('date_to'));
+    }
+    
+    // Filter by month and year
+    if (request('month') && request('year')) {
+        $query->whereMonth('created_at', request('month'))
+              ->whereYear('created_at', request('year'));
     }
     
     // Sorting
@@ -145,4 +166,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('posts', AdminPostController::class);
     Route::resource('images', ImageController::class);
     Route::resource('structure', StructureController::class);
+});
+
+Route::get('/contact', function () {
+    $contacts = \App\Models\Contact::where('is_active', true)
+        ->orderBy('order')
+        ->orderBy('created_at', 'asc')
+        ->get();
+    
+    return view('contact', [
+        'title' => 'Kontak',
+        'contacts' => $contacts
+    ]);
+});
+
+// Admin routes - tambahkan di dalam middleware group
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('posts', AdminPostController::class);
+    Route::resource('images', ImageController::class);
+    Route::resource('structure', StructureController::class);
+    Route::resource('contacts', ContactController::class); // TAMBAHKAN INI
 });
