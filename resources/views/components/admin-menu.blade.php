@@ -1,5 +1,5 @@
 <div class="bg-gray-800 rounded-lg p-4 mb-6">
-    <nav class="flex space-x-4">
+    <nav class="flex flex-wrap gap-2">
         <a href="{{ route('admin.posts.index') }}" 
            class="{{ request()->routeIs('admin.posts.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-4 py-2 rounded-md text-sm font-medium transition">
             Posts
@@ -15,6 +15,10 @@
         <a href="{{ route('admin.contacts.index') }}" 
            class="{{ request()->routeIs('admin.contacts.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-4 py-2 rounded-md text-sm font-medium transition">
             Contact
+        </a>
+        <a href="{{ route('admin.about.index') }}" 
+           class="{{ request()->routeIs('admin.about.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-4 py-2 rounded-md text-sm font-medium transition">
+            About
         </a>
     </nav>
 </div>

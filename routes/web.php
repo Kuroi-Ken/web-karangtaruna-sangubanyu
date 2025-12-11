@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\StructurePosition;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\StructureController;
@@ -123,7 +124,12 @@ Route::get('/contact', function () {
 });
 
 Route::get('/about', function () {
-    return view('about', ['title' => 'Tentang Kami', 'nama' => 'Faiz Nur Ramadhan']);
+    $about = \App\Models\About::where('is_active', true)->first();
+    
+    return view('about', [
+        'title' => 'Tentang Kami',
+        'about' => $about
+    ]);
 });
 
 Route::get('/struktur', function () {
@@ -152,4 +158,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('images', ImageController::class);
     Route::resource('structure', StructureController::class);
     Route::resource('contacts', ContactController::class);
+    Route::resource('about', AboutController::class);
 });
