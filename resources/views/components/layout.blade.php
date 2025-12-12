@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/kartur.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('kartur.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('kartur.png') }}">
+    <script src="https://unpkg.com/feather-icons"></script>
     
     <title>{{ $title }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -43,6 +44,9 @@
         </main>
     </div>
     <x-footer></x-footer>
+     <script>
+      feather.replace();
+    </script>
 </body>
 
 </html>

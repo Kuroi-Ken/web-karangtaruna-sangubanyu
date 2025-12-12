@@ -1,9 +1,17 @@
-<footer
-    class="relative bg-gray-800 w-full sm:w-5/6 lg:w-5/6 rounded-t-3xl mx-auto
-           after:pointer-events-none after:absolute after:inset-0
-           after:border-y h-24 after:border-white/10 after:rounded-t-3xl">
+<footer class="px-3 pt-5 container mx-auto lg:w-3/5">
+    <div class="px-4 py-9 mx-auto">
+        <div class="flex flex-col lg:flex-row justify-between items-center lg:items-start p-5 text-sm text-center lg:text-left">
+            <div class="mb-4 lg:mb-0">
+                <p class="text-white">© 2025 - Karang Taruna Sangubanyu</p>
+                <p class="text-white">Web by KKN-M UNY 2025</p>
+            </div>
 
-    <div class="px-4 py-9 ">
-        <!-- content -->
+            <ul class="flex flex-row gap-3 text-white self-center">
+                <li><a href="#"><i data-feather="github"></i></a></li>
+                <li><a href="#"><i data-feather="phone"></i></a></li>
+                <li><a href="#"><i data-feather="instagram"></i></a></li>
+            </ul>
+
+        </div>
     </div>
 </footer>

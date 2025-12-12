@@ -47,8 +47,8 @@
                             <!-- Left: Info -->
                             <div class="flex-1">
                                 <div class="flex items-start gap-4 mb-4">
-                                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center mt-5 justify-center flex-shrink-0">
+                                        <svg class="w-8 h-8  text-white" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
                                             <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
                                         </svg>
@@ -89,7 +89,7 @@
 
                             <!-- Right: Action -->
                             @if($report->file_path)
-                                <div class="lg:text-right">
+                                <div class="lg:text-right self-end mb-4">
                                     <a href="{{ Storage::url($report->file_path) }}" 
                                        target="_blank"
                                        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition-all hover:scale-105 shadow-lg">
