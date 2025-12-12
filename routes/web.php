@@ -1,7 +1,6 @@
 <?php
 // routes/web.php
 
-use App\Http\Controllers\Admin\AboutController;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Image;
@@ -9,9 +8,11 @@ use App\Models\Category;
 use App\Models\StructurePosition;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\StructureController;
+use App\Http\Controllers\Admin\FinancialReportController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 
 Route::get('/', function () {
@@ -159,4 +160,38 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('structure', StructureController::class);
     Route::resource('contacts', ContactController::class);
     Route::resource('about', AboutController::class);  // 
+    Route::resource('financial-reports', FinancialReportController::class);
+});
+
+Route::get('/arsip/laporan-keuangan', function () {
+    $query = \App\Models\FinancialReport::where('is_published', true);
+    
+    if (request('year')) {
+        $query->where('year', request('year'));
+    }
+    
+    if (request('type')) {
+        $query->where('report_type', request('type'));
+    }
+    
+    $reports = $query->orderBy('year', 'desc')
+        ->orderBy('month', 'desc')
+        ->orderBy('quarter', 'desc')
+        ->orderBy('order')
+        ->get();
+    
+    $years = \App\Models\FinancialReport::where('is_published', true)
+        ->selectRaw('DISTINCT year')
+        ->orderBy('year', 'desc')
+        ->pluck('year');
+    
+    return view('arsip-financial', [
+        'title' => 'Laporan Keuangan - Arsip',
+        'reports' => $reports,
+        'years' => $years
+    ]);
+});
+
+Route::get('/arsip', function () {
+    return redirect('/arsip/laporan-keuangan');
 });

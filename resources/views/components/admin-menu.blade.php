@@ -1,3 +1,4 @@
+{{-- resources/views/components/admin-menu.blade.php --}}
 <div class="bg-gray-800 rounded-lg p-4 mb-6">
     <nav class="flex flex-wrap gap-2">
         <a href="{{ route('admin.posts.index') }}" 
@@ -19,6 +20,10 @@
         <a href="{{ route('admin.about.index') }}" 
            class="{{ request()->routeIs('admin.about.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-4 py-2 rounded-md text-sm font-medium transition">
             About
+        </a>
+        <a href="{{ route('admin.financial-reports.index') }}" 
+           class="{{ request()->routeIs('admin.financial-reports.*') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-4 py-2 rounded-md text-sm font-medium transition">
+            Laporan Keuangan
         </a>
     </nav>
 </div>
