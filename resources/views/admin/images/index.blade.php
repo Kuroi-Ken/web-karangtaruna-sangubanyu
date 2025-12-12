@@ -152,5 +152,10 @@
                 Showing {{ $images->count() }} image(s)
             </div>
         @endif
+        @if($images->hasPages())
+            <div class="mt-6">
+                {{ $images->links() }}
+            </div>
+        @endif
     </div>
 </x-layout>

@@ -19,123 +19,120 @@
         @endif
 
         <!-- Search and Filter Form -->
-    <div class="sticky top-16 z-10 bg-gray-900/95 backdrop-blur-sm -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 shadow-lg border-b border-gray-700">
-        <form method="GET" action="{{ route('admin.posts.index') }}" class="space-y-3">
-
-            <!-- Main Search (Always Visible) -->
-            <div class="flex items-center gap-3">
-                <div class="relative flex-1">
-                    <input type="text" 
-                        name="search" 
-                        value="{{ request('search') }}"
-                        placeholder="Search posts..." 
-                        class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400">
-                    
-                    <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </div>
-
-                <button type="submit" 
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition text-sm whitespace-nowrap">
-                    Search
-                </button>
-
-                @if(request('search') || request('category') || request('date'))
-                    <a href="{{ route('admin.posts.index') }}" 
-                    class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition text-sm whitespace-nowrap">
-                        Clear
-                    </a>
-                @endif
-            </div>
-
-            <!-- Advanced Filters Toggle -->
-            <div class="flex items-center justify-between pt-2 border-t border-gray-700">
-                <button type="button" 
-                        id="toggleAdvancedAdmin"
-                        class="flex items-center gap-2 text-gray-400 hover:text-white transition text-sm">
-                    <svg id="advancedIconAdmin" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                    <span>Advanced Filters</span>
-                </button>
-
-                @if(request('category') || request('date'))
-                    <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-medium">
-                        {{ collect([request('category'), request('date')])->filter()->count() }} filter(s) active
-                    </span>
-                @endif
-            </div>
-
-            <!-- Advanced Filters (Hidden by Default) -->
-            <div id="advancedFiltersAdmin" class="hidden space-y-3 pt-3 border-t border-gray-700">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <!-- Category Filter -->
-                    <div>
-                        <label class="block text-gray-400 text-xs mb-1">Category</label>
-                        <select name="category" 
-                                class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="">All Categories</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->activity }}
-                                </option>
-                            @endforeach
-                        </select>
+        <div class="sticky top-16 z-10 bg-gray-900/95 backdrop-blur-sm -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 shadow-lg border-b border-gray-700">
+            <form method="GET" action="{{ route('admin.posts.index') }}" class="space-y-3">
+                <!-- Main Search (Always Visible) -->
+                <div class="flex items-center gap-3">
+                    <div class="relative flex-1">
+                        <input type="text" 
+                            name="search" 
+                            value="{{ request('search') }}"
+                            placeholder="Search posts..." 
+                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400">
+                        
+                        <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
                     </div>
 
-                    <!-- Date Filter -->
-                    <div>
-                        <label class="block text-gray-400 text-xs mb-1">Date</label>
-                        <input type="date"
-                            name="date"
-                            value="{{ request('date') }}"
-                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                </div>
-
-                <!-- Apply Button -->
-                <div class="flex justify-end">
                     <button type="submit" 
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition text-sm">
-                        Apply Filters
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition text-sm whitespace-nowrap">
+                        Search
                     </button>
+
+                    @if(request('search') || request('category') || request('date'))
+                        <a href="{{ route('admin.posts.index') }}" 
+                           class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition text-sm whitespace-nowrap">
+                            Clear
+                        </a>
+                    @endif
                 </div>
-            </div>
 
-            <!-- Active Filters Display -->
-            @if(request('search') || request('category') || request('date'))
-                <div class="pt-3 border-t border-gray-700">
-                    <div class="flex flex-wrap gap-2 items-center">
-                        <span class="text-gray-400 text-xs">Active filters:</span>
+                <!-- Advanced Filters Toggle -->
+                <div class="flex items-center justify-between pt-2 border-t border-gray-700">
+                    <button type="button" 
+                            id="toggleAdvancedAdmin"
+                            class="flex items-center gap-2 text-gray-400 hover:text-white transition text-sm">
+                        <svg id="advancedIconAdmin" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                        <span>Advanced Filters</span>
+                    </button>
 
-                        @if(request('search'))
-                            <span class="bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-xs">
-                                "{{ Str::limit(request('search'), 20) }}"
-                            </span>
-                        @endif
+                    @if(request('category') || request('date'))
+                        <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-medium">
+                            {{ collect([request('category'), request('date')])->filter()->count() }} filter(s) active
+                        </span>
+                    @endif
+                </div>
 
-                        @if(request('category'))
-                            @php
-                                $selectedCategory = $categories->firstWhere('id', request('category'));
-                            @endphp
-                            <span class="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs">
-                                {{ $selectedCategory->activity ?? 'Category' }}
-                            </span>
-                        @endif
+                <!-- Advanced Filters (Hidden by Default) -->
+                <div id="advancedFiltersAdmin" class="hidden space-y-3 pt-3 border-t border-gray-700">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Category Filter -->
+                        <div>
+                            <label class="block text-gray-400 text-xs mb-1">Category</label>
+                            <select name="category" 
+                                    class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="">All Categories</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->activity }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                        @if(request('date'))
-                            <span class="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs">
-                                {{ \Carbon\Carbon::parse(request('date'))->format('M d, Y') }}
-                            </span>
-                        @endif
+                        <!-- Date Filter -->
+                        <div>
+                            <label class="block text-gray-400 text-xs mb-1">Date</label>
+                            <input type="date"
+                                name="date"
+                                value="{{ request('date') }}"
+                                class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+
+                    <!-- Apply Button -->
+                    <div class="flex justify-end">
+                        <button type="submit" 
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition text-sm">
+                            Apply Filters
+                        </button>
                     </div>
                 </div>
-            @endif
 
-        </form>
-    </div>
+                <!-- Active Filters Display -->
+                @if(request('search') || request('category') || request('date'))
+                    <div class="pt-3 border-t border-gray-700">
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="text-gray-400 text-xs">Active filters:</span>
 
+                            @if(request('search'))
+                                <span class="bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-xs">
+                                    "{{ Str::limit(request('search'), 20) }}"
+                                </span>
+                            @endif
+
+                            @if(request('category'))
+                                @php
+                                    $selectedCategory = $categories->firstWhere('id', request('category'));
+                                @endphp
+                                <span class="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs">
+                                    {{ $selectedCategory->activity ?? 'Category' }}
+                                </span>
+                            @endif
+
+                            @if(request('date'))
+                                <span class="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs">
+                                    {{ \Carbon\Carbon::parse(request('date'))->format('M d, Y') }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+            </form>
+        </div>
 
         <!-- Desktop Table View -->
         <div class="hidden lg:block bg-gray-800 rounded-lg overflow-hidden">
@@ -209,7 +206,6 @@
         <div class="lg:hidden space-y-4">
             @forelse ($posts as $post)
                 <div class="bg-gray-800 rounded-lg p-4 hover:bg-gray-700/50 transition">
-                    <!-- Post Header -->
                     <div class="flex items-start justify-between mb-3">
                         <div class="flex-1 min-w-0">
                             <h3 class="text-white font-semibold text-base mb-1 line-clamp-2">
@@ -226,12 +222,10 @@
                         @endif
                     </div>
 
-                    <!-- Post Excerpt -->
                     <p class="text-gray-400 text-sm mb-3 line-clamp-2">
                         {{ Str::limit($post->body, 100) }}
                     </p>
 
-                    <!-- Post Meta -->
                     <div class="flex items-center text-xs text-gray-400 mb-3 pb-3 border-b border-gray-700">
                         <div class="flex items-center gap-2 flex-1">
                             <img class="w-6 h-6 rounded-full" 
@@ -242,7 +236,6 @@
                         <span class="text-gray-500">{{ $post->created_at->format('M d, Y') }}</span>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="flex gap-2">
                         <a href="{{ route('admin.posts.edit', $post) }}"
                             class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition">
@@ -263,9 +256,6 @@
                 </div>
             @empty
                 <div class="bg-gray-800 rounded-lg p-8 text-center">
-                    <svg class="mx-auto h-12 w-12 text-gray-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
                     <p class="text-gray-400">
                         @if(request('search') || request('category'))
                             No posts found matching your search criteria.
@@ -273,26 +263,20 @@
                             No posts found. Create your first post!
                         @endif
                     </p>
-                    @if(!request('search') && !request('category'))
-                        <a href="{{ route('admin.posts.create') }}" 
-                           class="inline-block mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition">
-                            Create First Post
-                        </a>
-                    @endif
                 </div>
             @endforelse
         </div>
 
-        @if($posts->isNotEmpty())
-            <div class="mt-4 text-gray-400 text-sm">
-                Showing {{ $posts->count() }} post(s)
+        <!-- Pagination -->
+        @if($posts->hasPages())
+            <div class="mt-6">
+                {{ $posts->links() }}
             </div>
         @endif
     </div>
 </x-layout>
 
 <script>
-    // Toggle Advanced Filters for Admin
     const toggleBtnAdmin = document.getElementById('toggleAdvancedAdmin');
     const advancedFiltersAdmin = document.getElementById('advancedFiltersAdmin');
     const advancedIconAdmin = document.getElementById('advancedIconAdmin');
@@ -304,7 +288,6 @@
         });
     }
 
-    // Auto-open if any advanced filter is active
     @if(request('category') || request('date'))
         if (advancedFiltersAdmin) {
             advancedFiltersAdmin.classList.remove('hidden');

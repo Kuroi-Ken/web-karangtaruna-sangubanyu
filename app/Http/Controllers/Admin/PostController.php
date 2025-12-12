@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    
     public function index(Request $request)
     {
         $query = Post::with(['author', 'category']);
@@ -36,7 +37,15 @@ class PostController extends Controller
             $query->where('cate_id', $request->category);
         }
 
-        $posts = $query->orderBy('created_at', 'desc')->get();
+        // Filter by date
+        if ($request->has('date') && $request->date != '') {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        $posts = $query->orderBy('created_at', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+            
         $categories = Category::orderBy('activity', 'asc')->get();
 
         return view('admin.posts.index', compact('posts', 'categories'));

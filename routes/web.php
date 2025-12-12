@@ -1,5 +1,4 @@
 <?php
-// routes/web.php
 
 use App\Models\Post;
 use App\Models\User;
@@ -160,9 +159,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('images', ImageController::class);
     Route::resource('structure', StructureController::class);
     Route::resource('contacts', ContactController::class);
-    Route::resource('about', AboutController::class);  // 
+    Route::resource('about', AboutController::class);
     Route::resource('financial-reports', FinancialReportController::class);
-    Route::resource('documents',DocumentController::class);
+    Route::resource('documents', DocumentController::class);
 });
 
 Route::get('/arsip/laporan-keuangan', function () {
@@ -180,7 +179,8 @@ Route::get('/arsip/laporan-keuangan', function () {
         ->orderBy('month', 'desc')
         ->orderBy('quarter', 'desc')
         ->orderBy('order')
-        ->get();
+        ->paginate(10)
+        ->withQueryString();
     
     $years = \App\Models\FinancialReport::where('is_published', true)
         ->selectRaw('DISTINCT year')
@@ -199,43 +199,11 @@ Route::get('/arsip', function () {
 });
 
 Route::get('/arsip/dokumen', function () {
-    $files = [];
-    $dokumenPath = storage_path('app/public/dokumen');
-    
-    if (file_exists($dokumenPath) && is_dir($dokumenPath)) {
-        $allFiles = scandir($dokumenPath);
-        
-        foreach ($allFiles as $file) {
-            if ($file !== '.' && $file !== '..') {
-                $filePath = $dokumenPath . '/' . $file;
-                
-                if (is_file($filePath)) {
-                    $files[] = [
-                        'name' => $file,
-                        'size' => filesize($filePath),
-                        'modified' => filemtime($filePath),
-                        'extension' => pathinfo($file, PATHINFO_EXTENSION),
-                        'url' => asset('storage/dokumen/' . $file)
-                    ];
-                }
-            }
-        }
-        usort($files, function($a, $b) {
-            return $b['modified'] - $a['modified'];
-        });
-    }
-    
-    return view('arsip-dokumen', [
-        'title' => 'Arsip Dokumen & Surat - Arsip',
-        'files' => $files
-    ]);
-});
-
-Route::get('/arsip/dokumen', function () {
     $documents = \App\Models\Document::where('is_published', true)
         ->orderBy('order')
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(12)
+        ->withQueryString();
     
     return view('arsip-dokumen', [
         'title' => 'Arsip Dokumen & Surat - Arsip',

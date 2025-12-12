@@ -136,5 +136,10 @@
                 Showing {{ $reports->count() }} report(s)
             </div>
         @endif
+        @if($reports->hasPages())
+            <div class="mt-6">
+                {{ $reports->links() }}
+            </div>
+        @endif
     </div>
 </x-layout>

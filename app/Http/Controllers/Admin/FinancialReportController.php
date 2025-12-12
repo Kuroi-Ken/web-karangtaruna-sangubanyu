@@ -33,7 +33,7 @@ class FinancialReportController extends Controller
             ->orderBy('month', 'desc')
             ->orderBy('quarter', 'desc')
             ->orderBy('order')
-            ->get();
+            ->paginate(10);
 
         $years = FinancialReport::selectRaw('DISTINCT year')
             ->orderBy('year', 'desc')

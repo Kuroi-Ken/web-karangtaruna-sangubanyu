@@ -29,7 +29,7 @@ class ImageController extends Controller
             $query->where('is_active', $request->status);
         }
 
-        $images = $query->orderBy('order')->orderBy('created_at', 'desc')->get();
+        $images = $query->orderBy('order')->orderBy('created_at', 'desc')->paginate(10);
         
         // Get current hero image
         $heroImage = Image::where('is_hero', true)->first();

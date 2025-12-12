@@ -34,7 +34,7 @@ class DocumentController extends Controller
 
         $documents = $query->orderBy('order')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
 
         $categories = Document::whereNotNull('category')
             ->select('category')

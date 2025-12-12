@@ -115,9 +115,9 @@
             @endforeach
         </div>
 
-        <!-- Results Count -->
-        <div class="mt-8 text-center text-gray-400">
-            Menampilkan {{ $documents->count() }} dokumen
+        <!-- Pagination -->
+        <div class="mt-8">
+            {{ $documents->links() }}
         </div>
     @else
         <!-- Empty State -->

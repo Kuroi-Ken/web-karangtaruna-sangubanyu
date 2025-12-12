@@ -152,5 +152,10 @@
                 Showing {{ $documents->count() }} document(s)
             </div>
         @endif
+        @if($documents->hasPages())
+            <div class="mt-6">
+                {{ $documents->links() }}
+            </div>
+        @endif
     </div>
 </x-layout>
