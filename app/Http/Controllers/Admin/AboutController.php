@@ -38,7 +38,7 @@ class AboutController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'vision' => $request->vision,
-            'mission' => array_filter($request->mission), // Remove empty items
+            'mission' => array_filter($request->mission),
             'is_active' => $request->has('is_active'),
         ];
 

@@ -68,30 +68,6 @@
                     </ul>
                 </div>
             </div>
-
-            <!-- Additional Info Section (Optional) -->
-            <div class="max-w-4xl mx-auto mt-12">
-                <div class="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl p-6 sm:p-8 border border-indigo-500/30">
-                    <div class="text-center">
-                        <h3 class="text-2xl font-bold text-white mb-4">
-                            Mari Bergabung Bersama Kami
-                        </h3>
-                        <p class="text-gray-300 mb-6">
-                            Karang Taruna Desa Sangubanyu selalu terbuka untuk anggota baru yang ingin berkontribusi dalam membangun masyarakat yang lebih baik.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/contact" 
-                               class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg transition-all hover:scale-105 shadow-lg">
-                                Hubungi Kami
-                            </a>
-                            <a href="/posts" 
-                               class="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-semibold px-8 py-3 rounded-lg transition-all hover:scale-105 border border-white/20">
-                                Lihat Kegiatan
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     @else
         <!-- Empty State -->

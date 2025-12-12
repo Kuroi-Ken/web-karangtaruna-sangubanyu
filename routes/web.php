@@ -1,6 +1,7 @@
 <?php
 // routes/web.php
 
+use App\Http\Controllers\Admin\AboutController;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Image;
@@ -8,7 +9,6 @@ use App\Models\Category;
 use App\Models\StructurePosition;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\StructureController;
@@ -158,5 +158,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('images', ImageController::class);
     Route::resource('structure', StructureController::class);
     Route::resource('contacts', ContactController::class);
-    Route::resource('about', AboutController::class);
+    Route::resource('about', AboutController::class);  // 
 });

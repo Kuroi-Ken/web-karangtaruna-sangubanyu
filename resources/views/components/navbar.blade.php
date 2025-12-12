@@ -12,7 +12,8 @@
                         <x-navlink href="/posts" :active="request()->is('posts')">Blog</x-navlink>
                         <x-navlink href="/contact" :active="request()->is('contact')">Kontak</x-navlink>
                         <x-navlink href="/struktur" :active="request()->is('struktur')">Struktur</x-navlink>
-                        <x-navlink href="/about" :active="request()->is('about')">About</x-navlink>
+                        <x-navlink href="/about" :active="request()->is('about')">Tentang Kami</x-navlink>
+                        <x-navlink href="/arsip" :active="request()->is('arsip')">Arsip</x-navlink>
                         @auth
                         <x-navlink href="/admin/posts" :active="request()->is('admin/*')">Admin Panel</x-navlink>
                         @endauth
@@ -104,7 +105,8 @@
             <x-navlink href="/posts" :active="request()->is('posts')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Blog</x-navlink>
             <x-navlink href="/contact" :active="request()->is('contact')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Kontak</x-navlink>
             <x-navlink href="/struktur" :active="request()->is('struktur')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Struktur</x-navlink>
-            <x-navlink href="/about" :active="request()->is('about')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">About</x-navlink>
+            <x-navlink href="/about" :active="request()->is('about')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Tentang Kami</x-navlink>
+            <x-navlink href="/arsip" :active="request()->is('arsip')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Arsip</x-navlink>
             @auth
             <x-navlink href="/admin/posts" :active="request()->is('admin/*')" class="flex justify-center w-fulltext-center py-1 text-white rounded-lg hover:bg-white/5">Admin Panel</x-navlink>
             @endauth
