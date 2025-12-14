@@ -68,83 +68,86 @@
 
         <!-- Documents Table -->
         <div class="bg-gray-800 rounded-lg overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-gray-700">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Dokumen</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Kategori</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">File Info</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-300 uppercase">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-700">
-                    @forelse ($documents as $document)
-                        <tr class="hover:bg-gray-700/50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-gradient-to-br 
-                                        @if(strtolower($document->file_type) === 'pdf') from-red-600 to-red-700
-                                        @elseif(in_array(strtolower($document->file_type), ['doc', 'docx'])) from-blue-600 to-blue-700
-                                        @elseif(in_array(strtolower($document->file_type), ['xls', 'xlsx'])) from-green-600 to-green-700
-                                        @else from-gray-600 to-gray-700
-                                        @endif
-                                        rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div class="text-white font-medium">{{ Str::limit($document->title, 40) }}</div>
-                                        @if($document->description)
-                                            <div class="text-gray-400 text-sm">{{ Str::limit($document->description, 60) }}</div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                @if($document->category)
-                                    <span class="px-2 py-1 text-xs rounded bg-indigo-500/10 text-indigo-400">
-                                        {{ $document->category }}
-                                    </span>
-                                @else
-                                    <span class="text-gray-500">-</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 text-gray-300 text-sm">
-                                <div>{{ strtoupper($document->file_type) }}</div>
-                                <div class="text-gray-500">{{ $document->formatted_file_size }}</div>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="px-2 py-1 text-xs rounded {{ $document->is_published ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500' }}">
-                                    {{ $document->is_published ? 'Dipublikasi' : 'Draf' }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-right">
-                                <div class="flex gap-3 justify-end">
-                                    <a href="{{ Storage::url($document->file_path) }}" 
-                                       target="_blank"
-                                       class="text-green-400 hover:text-green-300">Lihat</a>
-                                    <a href="{{ route('admin.documents.edit', $document) }}"
-                                        class="text-blue-400 hover:text-blue-300">Edit</a>
-                                    <form action="{{ route('admin.documents.destroy', $document) }}" method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus dokumen ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-400 hover:text-red-300">Hapus</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[800px]">
+                    <thead class="bg-gray-700">
                         <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-gray-400">
-                                Belum ada dokumen.
-                            </td>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Dokumen</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Kategori</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">File Info</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Status</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Aksi</th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700">
+                        @forelse ($documents as $document)
+                            <tr class="hover:bg-gray-700/50">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gradient-to-br 
+                                            @if(strtolower($document->file_type) === 'pdf') from-red-600 to-red-700
+                                            @elseif(in_array(strtolower($document->file_type), ['doc', 'docx'])) from-blue-600 to-blue-700
+                                            @elseif(in_array(strtolower($document->file_type), ['xls', 'xlsx'])) from-green-600 to-green-700
+                                            @else from-gray-600 to-gray-700
+                                            @endif
+                                            rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="text-white font-medium whitespace-nowrap">{{ Str::limit($document->title, 40) }}</div>
+                                            @if($document->description)
+                                                <div class="text-gray-400 text-sm whitespace-nowrap">{{ Str::limit($document->description, 60) }}</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if($document->category)
+                                        <span class="px-2 py-1 text-xs rounded bg-indigo-500/10 text-indigo-400 whitespace-nowrap inline-block">
+                                            {{ $document->category }}
+                                        </span>
+                                    @else
+                                        <span class="text-gray-500">-</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 text-gray-300 text-sm">
+                                    <div class="whitespace-nowrap">{{ strtoupper($document->file_type) }}</div>
+                                    <div class="text-gray-500 whitespace-nowrap">{{ $document->formatted_file_size }}</div>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="px-2 py-1 text-xs rounded {{ $document->is_published ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500' }} whitespace-nowrap inline-block">
+                                        {{ $document->is_published ? 'Dipublikasi' : 'Draf' }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex gap-3 justify-end whitespace-nowrap">
+                                        <a href="{{ Storage::url($document->file_path) }}" 
+                                        target="_blank"
+                                        class="text-green-400 hover:text-green-300">Lihat</a>
+                                        <a href="{{ route('admin.documents.edit', $document) }}"
+                                            class="text-blue-400 hover:text-blue-300">Edit</a>
+                                        <form action="{{ route('admin.documents.destroy', $document) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus dokumen ini?')"
+                                            class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-400 hover:text-red-300">Hapus</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-12 text-center text-gray-400">
+                                    Belum ada dokumen.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         @if($documents->isNotEmpty())
