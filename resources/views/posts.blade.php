@@ -13,7 +13,7 @@
                             <input type="text" 
                                    name="search"
                                    value="{{ request('search') }}"
-                                   placeholder="Search by title, content, author, or category..."
+                                   placeholder="Cari berdasarkan judul, konten, penulis, atau kategori..."
                                    class="w-full bg-gray-800 text-white rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 border border-gray-700">
 
                             <svg class="absolute left-3 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,13 +23,13 @@
 
                         <button type="submit"
                                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition text-sm whitespace-nowrap">
-                            Search
+                            Cari
                         </button>
 
                         @if(request('search') || request('category') || request('author') || request('sort') || request('date'))
                             <a href="{{ url('/posts') }}" 
                                class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition text-sm whitespace-nowrap">
-                                Clear
+                                Hapus
                             </a>
                         @endif
                     </div>
@@ -43,13 +43,13 @@
                         <svg id="advancedIcon" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
-                        <span>Advanced Filters</span>
+                        <span>Filter Lanjutan</span>
                     </button>
 
                     <!-- Active Filters Badge -->
                     @if(request('category') || request('author') || request('sort') || request('date'))
                         <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-medium">
-                            {{ collect([request('category'), request('author'), request('sort'), request('date')])->filter()->count() }} filter(s) active
+                            {{ collect([request('category'), request('author'), request('sort'), request('date')])->filter()->count() }} filter aktif
                         </span>
                     @endif
                 </div>
@@ -59,10 +59,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         <!-- Category Filter -->
                         <div>
-                            <label class="block text-gray-400 text-xs mb-1">Category</label>
+                            <label class="block text-gray-400 text-xs mb-1">Kategori</label>
                             <select name="category" 
                                     class="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-700">
-                                <option value="">All Categories</option>
+                                <option value="">Semua Kategori</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                                         {{ $category->activity }}
@@ -73,10 +73,10 @@
 
                         <!-- Author Filter -->
                         <div>
-                            <label class="block text-gray-400 text-xs mb-1">Author</label>
+                            <label class="block text-gray-400 text-xs mb-1">Penulis</label>
                             <select name="author" 
                                     class="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-700">
-                                <option value="">All Authors</option>
+                                <option value="">Semua Penulis</option>
                                 @foreach($authors as $author)
                                     <option value="{{ $author }}" {{ request('author') == $author ? 'selected' : '' }}>
                                         {{ $author }}
@@ -87,7 +87,7 @@
 
                         <!-- Date Filter -->
                         <div>
-                            <label class="block text-gray-400 text-xs mb-1">Date</label>
+                            <label class="block text-gray-400 text-xs mb-1">Tanggal</label>
                             <input type="date"
                                    name="date"
                                    value="{{ request('date') }}"
@@ -97,13 +97,13 @@
 
                         <!-- Sort Filter -->
                         <div>
-                            <label class="block text-gray-400 text-xs mb-1">Sort By</label>
+                            <label class="block text-gray-400 text-xs mb-1">Urutkan</label>
                             <select name="sort" 
                                     class="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-gray-700">
-                                <option value="latest" {{ request('sort') == 'latest' || !request('sort') ? 'selected' : '' }}>Latest First</option>
-                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
-                                <option value="title" {{ request('sort') == 'title' ? 'selected' : '' }}>Title (A-Z)</option>
-                                <option value="author" {{ request('sort') == 'author' ? 'selected' : '' }}>Author (A-Z)</option>
+                                <option value="latest" {{ request('sort') == 'latest' || !request('sort') ? 'selected' : '' }}>Terbaru</option>
+                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Terlama</option>
+                                <option value="title" {{ request('sort') == 'title' ? 'selected' : '' }}>Judul (A-Z)</option>
+                                <option value="author" {{ request('sort') == 'author' ? 'selected' : '' }}>Penulis (A-Z)</option>
                             </select>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition text-sm">
-                            Apply Filters
+                            Terapkan Filter
                         </button>
                     </div>
                 </div>
@@ -121,11 +121,11 @@
                 @if(request('search') || request('category') || request('author') || request('sort') || request('date'))
                     <div class="pt-3 border-t border-gray-700">
                         <div class="flex flex-wrap gap-2 items-center">
-                            <span class="text-gray-400 text-xs">Active filters:</span>
+                            <span class="text-gray-400 text-xs">Filter aktif:</span>
 
                             @if(request('search'))
                                 <span class="bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-xs flex items-center gap-1">
-                                    Search: "{{ Str::limit(request('search'), 20) }}"
+                                    Pencarian: "{{ Str::limit(request('search'), 20) }}"
                                     <a href="{{ url('/posts?' . http_build_query(array_filter(request()->except('search')))) }}" 
                                        class="hover:text-white ml-1">×</a>
                                 </span>
@@ -136,7 +136,7 @@
                                     $selectedCategory = $categories->firstWhere('id', request('category'));
                                 @endphp
                                 <span class="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs flex items-center gap-1">
-                                    Category: {{ $selectedCategory->activity ?? 'Unknown' }}
+                                    Kategori: {{ $selectedCategory->activity ?? 'Tidak Diketahui' }}
                                     <a href="{{ url('/posts?' . http_build_query(array_filter(request()->except('category')))) }}" 
                                        class="hover:text-white ml-1">×</a>
                                 </span>
@@ -144,7 +144,7 @@
 
                             @if(request('author'))
                                 <span class="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs flex items-center gap-1">
-                                    Author: {{ request('author') }}
+                                    Penulis: {{ request('author') }}
                                     <a href="{{ url('/posts?' . http_build_query(array_filter(request()->except('author')))) }}" 
                                        class="hover:text-white ml-1">×</a>
                                 </span>
@@ -152,7 +152,7 @@
 
                             @if(request('date'))
                                 <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs flex items-center gap-1">
-                                    Date: {{ \Carbon\Carbon::parse(request('date'))->locale('id')->isoFormat('D MMMM Y') }}
+                                    Tanggal: {{ \Carbon\Carbon::parse(request('date'))->locale('id')->isoFormat('D MMMM Y') }}
                                     <a href="{{ url('/posts?' . http_build_query(array_filter(request()->except('date')))) }}" 
                                     class="hover:text-white ml-1">×</a>
                                 </span>
@@ -160,7 +160,7 @@
 
                             @if(request('sort') && request('sort') != 'latest')
                                 <span class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-xs flex items-center gap-1">
-                                    Sort: {{ ucfirst(request('sort')) }}
+                                    Urutan: {{ ucfirst(request('sort')) }}
                                     <a href="{{ url('/posts?' . http_build_query(array_filter(request()->except('sort')))) }}" 
                                        class="hover:text-white ml-1">×</a>
                                 </span>
@@ -176,8 +176,8 @@
     <!-- Results Count -->
     @if($posts->count() > 0)
         <p class="text-gray-400 text-sm mb-6">
-            Showing <span class="text-white font-semibold">{{ $posts->count() }}</span>
-            {{ Str::plural('post', $posts->count()) }}
+            Menampilkan <span class="text-white font-semibold">{{ $posts->count() }}</span>
+            {{ Str::plural('postingan', $posts->count()) }}
         </p>
     @endif
 
@@ -197,7 +197,7 @@
                                 <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
                                 </svg>
-                                Article
+                                Artikel
                             </span>
                             <span class="text-sm">{{ $post->created_at->diffForHumans() }}</span>
                         </div>
@@ -226,7 +226,7 @@
 
                             <a href="{{ route('post.show', $post->id) }}" 
                                class="inline-flex items-center font-medium text-indigo-600 dark:text-indigo-500 hover:text-indigo-700 transition">
-                                Read more
+                                Baca selengkapnya
                                 <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                 </svg>
@@ -248,20 +248,20 @@
 
                     <div class="col-span-full flex justify-center py-12">
                         <div class="rounded-lg p-8 text-center max-w-md w-full">
-                            <h3 class="text-xl font-medium text-white mb-2">No posts found</h3>
+                            <h3 class="text-xl font-medium text-white mb-2">Tidak ada postingan ditemukan</h3>
 
                             <p class="text-gray-400 mb-4">
                                 @if(request('search'))
-                                    Try adjusting your search keyword.
+                                    Coba sesuaikan kata kunci pencarian Anda.
                                 @else
-                                    No blog posts available.
+                                    Belum ada postingan blog tersedia.
                                 @endif
                             </p>
 
                             @if(request('search') || request('category') || request('author') || request('date'))
                                 <a href="{{ url('/posts') }}" 
                                    class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition">
-                                    View All Posts
+                                    Lihat Semua Postingan
                                 </a>
                             @endif
                         </div>

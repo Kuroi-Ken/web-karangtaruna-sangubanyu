@@ -1,14 +1,14 @@
 <x-layout>
-    <x-slot:title>Manage Contacts</x-slot:title>
+    <x-slot:title>Kontak</x-slot:title>
 
     <div class="py-6">
         <x-admin-menu />
         
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-white">Contact Information Management</h2>
+            <h2 class="text-2xl font-bold text-white">Manajemen Menu Kontak</h2>
             <a href="{{ route('admin.contacts.create') }}"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
-                Add New Contact
+                Tambah Kontak Baru
             </a>
         </div>
 
@@ -43,13 +43,13 @@
                                 </div>
                             @endif
                             <div>
-                                <span class="text-xs text-gray-400">Order: {{ $contact->order }}</span>
+                                <span class="text-xs text-gray-400">Urutan: {{ $contact->order }}</span>
                                 <h3 class="text-white font-semibold">{{ $contact->label }}</h3>
                                 <p class="text-gray-400 text-sm">{{ $contact->value }}</p>
                             </div>
                         </div>
                         <span class="px-2 py-1 text-xs rounded {{ $contact->is_active ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500' }}">
-                            {{ $contact->is_active ? 'Active' : 'Inactive' }}
+                            {{ $contact->is_active ? 'Aktif' : 'Tidak Aktif' }}
                         </span>
                     </div>
                     
@@ -73,7 +73,7 @@
                             @method('DELETE')
                             <button type="submit" 
                                     class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm">
-                                Delete
+                                Hapus
                             </button>
                         </form>
                     </div>
@@ -83,14 +83,14 @@
                     <svg class="mx-auto h-16 w-16 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
-                    <p class="text-xl">No contact information added yet.</p>
+                    <p class="text-xl">Belum Ada Informasi Kontak</p>
                 </div>
             @endforelse
         </div>
 
         @if($contacts->isNotEmpty())
             <div class="mt-6 text-gray-400 text-sm">
-                Showing {{ $contacts->count() }} contact(s)
+                Menampilkan {{ $contacts->count() }} Kontak
             </div>
         @endif
     </div>

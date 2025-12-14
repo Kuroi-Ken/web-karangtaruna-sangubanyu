@@ -1,14 +1,14 @@
 <x-layout>
-    <x-slot:title>Manage Posts</x-slot:title>
+    <x-slot:title>Blog</x-slot:title>
 
     <div class="py-4 sm:py-6">
         <x-admin-menu />
         
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <h2 class="text-xl sm:text-2xl font-bold text-white">Blog Posts Management</h2>
+            <h2 class="text-xl sm:text-2xl font-bold text-white">Kelola Postingan Blog</h2>
             <a href="{{ route('admin.posts.create') }}"
                 class="w-full sm:w-auto text-center bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition text-sm sm:text-base">
-                + Create New Post
+                + Buat Postingan Baru
             </a>
         </div>
 
@@ -27,7 +27,7 @@
                         <input type="text" 
                             name="search" 
                             value="{{ request('search') }}"
-                            placeholder="Search posts..." 
+                            placeholder="Cari postingan..." 
                             class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400">
                         
                         <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -37,13 +37,13 @@
 
                     <button type="submit" 
                             class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition text-sm whitespace-nowrap">
-                        Search
+                        Cari
                     </button>
 
                     @if(request('search') || request('category') || request('date'))
                         <a href="{{ route('admin.posts.index') }}" 
                            class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition text-sm whitespace-nowrap">
-                            Clear
+                            Hapus
                         </a>
                     @endif
                 </div>
@@ -56,12 +56,12 @@
                         <svg id="advancedIconAdmin" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
-                        <span>Advanced Filters</span>
+                        <span>Filter Lanjutan</span>
                     </button>
 
                     @if(request('category') || request('date'))
                         <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-medium">
-                            {{ collect([request('category'), request('date')])->filter()->count() }} filter(s) active
+                            {{ collect([request('category'), request('date')])->filter()->count() }} filter aktif
                         </span>
                     @endif
                 </div>
@@ -71,10 +71,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <!-- Category Filter -->
                         <div>
-                            <label class="block text-gray-400 text-xs mb-1">Category</label>
+                            <label class="block text-gray-400 text-xs mb-1">Kategori</label>
                             <select name="category" 
                                     class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="">All Categories</option>
+                                <option value="">Semua Kategori</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                                         {{ $category->activity }}
@@ -85,7 +85,7 @@
 
                         <!-- Date Filter -->
                         <div>
-                            <label class="block text-gray-400 text-xs mb-1">Date</label>
+                            <label class="block text-gray-400 text-xs mb-1">Tanggal</label>
                             <input type="date"
                                 name="date"
                                 value="{{ request('date') }}"
@@ -97,7 +97,7 @@
                     <div class="flex justify-end">
                         <button type="submit" 
                                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition text-sm">
-                            Apply Filters
+                            Terapkan Filter
                         </button>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                 @if(request('search') || request('category') || request('date'))
                     <div class="pt-3 border-t border-gray-700">
                         <div class="flex flex-wrap gap-2 items-center">
-                            <span class="text-gray-400 text-xs">Active filters:</span>
+                            <span class="text-gray-400 text-xs">Filter aktif:</span>
 
                             @if(request('search'))
                                 <span class="bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-xs">
@@ -140,19 +140,19 @@
                 <thead class="bg-gray-700">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                            Title
+                            Judul
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                            Category
+                            Kategori
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                            Author
+                            Penulis
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                            Date
+                            Tanggal
                         </th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">
-                            Actions
+                            Aksi
                         </th>
                     </tr>
                 </thead>
@@ -179,10 +179,10 @@
                                     <a href="{{ route('admin.posts.edit', $post) }}"
                                         class="text-blue-400 hover:text-blue-300">Edit</a>
                                     <form action="{{ route('admin.posts.destroy', $post) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this post?')">
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus postingan ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-400 hover:text-red-300">Delete</button>
+                                        <button type="submit" class="text-red-400 hover:text-red-300">Hapus</button>
                                     </form>
                                 </div>
                             </td>
@@ -191,9 +191,9 @@
                         <tr>
                             <td colspan="5" class="px-6 py-12 text-center text-gray-400">
                                 @if(request('search') || request('category'))
-                                    No posts found matching your search criteria.
+                                    Tidak ada postingan yang sesuai dengan pencarian Anda.
                                 @else
-                                    No posts found. Create your first post!
+                                    Belum ada postingan. Buat postingan pertama Anda!
                                 @endif
                             </td>
                         </tr>
@@ -243,13 +243,13 @@
                         </a>
                         <form action="{{ route('admin.posts.destroy', $post) }}" 
                               method="POST"
-                              onsubmit="return confirm('Are you sure you want to delete this post?')"
+                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus postingan ini?')"
                               class="flex-1">
                             @csrf
                             @method('DELETE')
                             <button type="submit" 
                                     class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm font-medium transition">
-                                Delete
+                                Hapus
                             </button>
                         </form>
                     </div>
@@ -258,9 +258,9 @@
                 <div class="bg-gray-800 rounded-lg p-8 text-center">
                     <p class="text-gray-400">
                         @if(request('search') || request('category'))
-                            No posts found matching your search criteria.
+                            Tidak ada postingan yang sesuai dengan pencarian Anda.
                         @else
-                            No posts found. Create your first post!
+                            Belum ada postingan. Buat postingan pertama Anda!
                         @endif
                     </p>
                 </div>

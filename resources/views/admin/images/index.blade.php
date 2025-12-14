@@ -1,14 +1,14 @@
 <x-layout>
-    <x-slot:title>Manage Images</x-slot:title>
+    <x-slot:title>Gambar & Background</x-slot:title>
 
     <div class="py-6">
         <x-admin-menu />
         
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-white">Image Gallery Management</h2>
+            <h2 class="text-2xl font-bold text-white">Manajemen Menu Gambar & Galeri</h2>
             <a href="{{ route('admin.images.create') }}"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
-                Upload New Image
+                + Tambah Gambar Baru
             </a>
         </div>
 
@@ -39,10 +39,10 @@
                                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                                 <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-white font-semibold">Current Hero Background Image</span>
+                            <span class="text-white font-semibold">Gambar Beackground Saat Ini </span>
                         </div>
                         <p class="text-gray-300 text-sm mb-1">{{ $heroImage->title }}</p>
-                        <p class="text-gray-400 text-xs">This image is currently displayed as the hero background on the home page</p>
+                        <p class="text-gray-400 text-xs">Gambar Ini Ditampilkan Sebagai Background di Menu Beranda</p>
                     </div>
                     <a href="{{ route('admin.images.edit', $heroImage) }}" 
                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm">
@@ -56,7 +56,7 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                     </svg>
-                    <span>No hero background image set. Upload and select an image as hero background.</span>
+                    <span>Belum ada Background yang Dipasang. Unggah Dan Pilih Gambar Sebagai Background</span>
                 </div>
             </div>
         @endif
@@ -68,20 +68,20 @@
                     <input type="text" 
                            name="search" 
                            value="{{ request('search') }}"
-                           placeholder="Search images by title or description..." 
+                           placeholder="Cari Gambar Berdasarkan Judul & Deskripsi..." 
                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div class="min-w-[150px]">
                     <select name="status" 
                             class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="">All Status</option>
-                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
-                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
+                        <option value="">Semua Status</option>
+                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Aktif</option>
+                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Tidak Aktif</option>
                     </select>
                 </div>
                 <button type="submit" 
                         class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition">
-                    Search
+                    Cari
                 </button>
                 @if(request('search') || request('status') !== null)
                     <a href="{{ route('admin.images.index') }}" 
@@ -106,7 +106,7 @@
                                         <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                                         <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                                     </svg>
-                                    Hero
+                                    Background
                                 </span>
                             </div>
                         @endif
@@ -115,13 +115,13 @@
                     <div class="p-4">
                         <div class="flex items-start justify-between mb-2">
                             <h3 class="text-white font-semibold flex-1">{{ $image->title }}</h3>
-                            <span class="text-xs text-gray-500 ml-2">Order: {{ $image->order }}</span>
+                            <span class="text-xs text-gray-500 ml-2">Urutan: {{ $image->order }}</span>
                         </div>
                         <p class="text-gray-400 text-sm mb-3">{{ Str::limit($image->description, 100) }}</p>
                         <div class="flex items-center justify-between">
                             <span
                                 class="px-2 py-1 text-xs rounded {{ $image->is_active ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500' }}">
-                                {{ $image->is_active ? 'Active' : 'Inactive' }}
+                                {{ $image->is_active ? 'Aktif' : 'Tidak Aktif' }}
                             </span>
                             <div class="flex gap-2">
                                 <a href="{{ route('admin.images.edit', $image) }}"
@@ -130,7 +130,7 @@
                                     onsubmit="return confirm('Are you sure?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-400">Delete</button>
+                                    <button type="submit" class="text-red-500 hover:text-red-400">Hapus</button>
                                 </form>
                             </div>
                         </div>
@@ -139,9 +139,9 @@
             @empty
                 <div class="col-span-full text-center text-gray-400 py-12">
                     @if(request('search') || request('status') !== null)
-                        No images found matching your search criteria.
+                        Tidak Ada Gambar Yang Sesuai Kriteria 
                     @else
-                        No images uploaded yet.
+                        Belum Ada Gambar Yag Diunggah
                     @endif
                 </div>
             @endforelse
@@ -149,7 +149,7 @@
 
         @if($images->isNotEmpty())
             <div class="mt-6 text-gray-400 text-sm">
-                Showing {{ $images->count() }} image(s)
+                Menampilkan {{ $images->count() }} Gambar
             </div>
         @endif
         @if($images->hasPages())

@@ -6,7 +6,7 @@
             <div class="bg-gray-800 rounded-lg shadow-xl p-8">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl font-bold text-white mb-2">Admin Login</h2>
-                    <p class="text-gray-400 text-sm">Access to admin panel only</p>
+                    <p class="text-gray-400 text-sm">Akses Untuk Masuk Mode Admin</p>
                 </div>
 
                 @if ($errors->any())
@@ -23,7 +23,7 @@
                     @csrf
 
                     <div class="mb-4">
-                        <label for="email" class="block text-white mb-2 font-medium text-sm">Email Address</label>
+                        <label for="email" class="block text-white mb-2 font-medium text-sm">Email</label>
                         <input type="email" 
                                name="email" 
                                id="email" 
@@ -46,13 +46,13 @@
 
                     <button type="submit"
                             class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition duration-200">
-                        Login as Admin
+                        Login 
                     </button>
                 </form>
 
                 <div class="mt-6 text-center">
                     <a href="/" class="text-sm text-gray-400 hover:text-white transition">
-                        ← Back to Home
+                        ← Kembali ke Beranda
                     </a>
                 </div>
             </div>

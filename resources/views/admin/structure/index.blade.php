@@ -1,14 +1,14 @@
 <x-layout>
-    <x-slot:title>Manage Structure</x-slot:title>
+    <x-slot:title>Struktur Organisasi</x-slot:title>
 
     <div class="py-6">
         <x-admin-menu />
         
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-white">Organization Structure Management</h2>
+            <h2 class="text-2xl font-bold text-white">Manajemen Struktur Organisasi</h2>
             <a href="{{ route('admin.structure.create') }}"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
-                Add New Position
+                + Tambah Jabatan Baru
             </a>
         </div>
 
@@ -42,14 +42,14 @@
                         
                         @if(!$structure->is_active)
                             <div class="absolute top-2 right-2">
-                                <span class="px-2 py-1 text-xs rounded bg-red-500 text-white">Inactive</span>
+                                <span class="px-2 py-1 text-xs rounded bg-red-500 text-white">Tidak Aktif</span>
                             </div>
                         @endif
                     </div>
                     
                     <div class="p-4">
                         <div class="mb-3">
-                            <span class="text-xs text-indigo-400 font-medium">Order: {{ $structure->order }}</span>
+                            <span class="text-xs text-indigo-400 font-medium">Urutan: {{ $structure->order }}</span>
                             <h3 class="text-white font-bold text-lg">{{ $structure->position }}</h3>
                             <p class="text-gray-300 text-base mt-1">{{ $structure->name }}</p>
                         </div>
@@ -73,7 +73,7 @@
                                 @method('DELETE')
                                 <button type="submit" 
                                         class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm">
-                                    Delete
+                                    Hapus
                                 </button>
                             </form>
                         </div>
@@ -84,14 +84,14 @@
                     <svg class="mx-auto h-16 w-16 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
-                    <p class="text-xl">No structure positions added yet.</p>
+                    <p class="text-xl">Belum Ada Jabatan Di Struktur Organisasi Dibuat.</p>
                 </div>
             @endforelse
         </div>
 
         @if($structures->isNotEmpty())
             <div class="mt-6 text-gray-400 text-sm">
-                Showing {{ $structures->count() }} position(s)
+                Menampilkan {{ $structures->count() }} Jabatan
             </div>
         @endif
     </div>

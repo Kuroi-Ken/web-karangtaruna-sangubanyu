@@ -1,11 +1,11 @@
 <x-layout>
-    <x-slot:title>Manage Financial Reports</x-slot:title>
+    <x-slot:title>Laporan Keuangan</x-slot:title>
 
     <div class="py-6">
         <x-admin-menu />
         
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-white">Laporan Keuangan Management</h2>
+            <h2 class="text-2xl font-bold text-white">Manajemen Menu Laporan Keuangan</h2>
             <a href="{{ route('admin.financial-reports.create') }}"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
                 + Tambah Laporan
@@ -43,8 +43,8 @@
                     <select name="status" 
                             class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         <option value="">Semua Status</option>
-                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Published</option>
-                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Draft</option>
+                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Dipublikasi</option>
+                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Draf</option>
                     </select>
                 </div>
                 <button type="submit" 
@@ -71,7 +71,7 @@
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase">Pengeluaran</th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase">Saldo</th>
                         <th class="px-6 py-3 text-center text-xs font-medium text-gray-300 uppercase">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase">Actions</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-700">
@@ -104,7 +104,7 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <span class="px-2 py-1 text-xs rounded {{ $report->is_published ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500' }}">
-                                    {{ $report->is_published ? 'Published' : 'Draft' }}
+                                    {{ $report->is_published ? 'Dipublikasi' : 'Draf' }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right">
@@ -115,7 +115,7 @@
                                         onsubmit="return confirm('Yakin ingin menghapus laporan ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-400 hover:text-red-300">Delete</button>
+                                        <button type="submit" class="text-red-400 hover:text-red-300">Hapus</button>
                                     </form>
                                 </div>
                             </td>
@@ -133,7 +133,7 @@
 
         @if($reports->isNotEmpty())
             <div class="mt-6 text-gray-400 text-sm">
-                Showing {{ $reports->count() }} report(s)
+                Menampilkan {{ $reports->count() }} Laporan
             </div>
         @endif
         @if($reports->hasPages())

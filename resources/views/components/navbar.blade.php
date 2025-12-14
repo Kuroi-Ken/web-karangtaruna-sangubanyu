@@ -8,7 +8,7 @@
                 </a>
                 <div class="hidden md:block">
                     <div class="ml-7 flex items-baseline space-x-4">
-                        <x-navlink href="/" :active="request()->is('/')">Home</x-navlink>
+                        <x-navlink href="/" :active="request()->is('/')">Beranda</x-navlink>
                         <x-navlink href="/posts" :active="request()->is('posts')">Blog</x-navlink>
                         <x-navlink href="/contact" :active="request()->is('contact')">Kontak</x-navlink>
                         <x-navlink href="/struktur" :active="request()->is('struktur')">Struktur</x-navlink>
@@ -101,7 +101,7 @@
             @endguest
         </div>
         <div class="space-y-1 px-2 pb-6 pt-2 ">
-            <x-navlink href="/" :active="request()->is('/')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Home</x-navlink>
+            <x-navlink href="/" :active="request()->is('/')" class="flex justify-center w-full text-center py-1 text-white hover:bg-white/5 rounded-lg">Beranda</x-navlink>
             <x-navlink href="/posts" :active="request()->is('posts')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Blog</x-navlink>
             <x-navlink href="/contact" :active="request()->is('contact')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Kontak</x-navlink>
             <x-navlink href="/struktur" :active="request()->is('struktur')" class="flex justify-center w-fulltext-center py-1 text-white hover:bg-white/5 rounded-lg">Struktur</x-navlink>

@@ -81,7 +81,7 @@
                 Informasi Belum Tersedia
             </h2>
             <p class="text-gray-400 mb-6">
-                Halaman About sedang dalam proses pembuatan.
+                Halaman ini sedang dalam proses pembuatan.
             </p>
             <a href="/" 
                class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition-all hover:scale-105">

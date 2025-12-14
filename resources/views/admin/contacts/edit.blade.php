@@ -1,8 +1,8 @@
 <x-layout>
-    <x-slot:title>Edit Contact</x-slot:title>
+    <x-slot:title>Edit Kontak</x-slot:title>
 
     <div class="max-w-2xl mx-auto py-6">
-        <h2 class="text-2xl font-bold text-white mb-6">Edit Contact Information</h2>
+        <h2 class="text-2xl font-bold text-white mb-6">Edit Informasi Kontak</h2>
 
         @if ($errors->any())
             <div class="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded mb-4">
@@ -19,24 +19,23 @@
             @method('PUT')
 
             <div class="mb-4">
-                <label class="block text-white mb-2 font-medium">Contact Type *</label>
+                <label class="block text-white mb-2 font-medium">Pilih Jenis Medsos *</label>
                 <select name="type" required
                     class="w-full bg-gray-700 text-white rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option value="">Select Type</option>
                     <option value="whatsapp" {{ old('type', $contact->type) === 'whatsapp' ? 'selected' : '' }}>WhatsApp</option>
                     <option value="instagram" {{ old('type', $contact->type) === 'instagram' ? 'selected' : '' }}>Instagram</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label class="block text-white mb-2 font-medium">Label *</label>
+                <label class="block text-white mb-2 font-medium">Label Kontak *</label>
                 <input type="text" name="label" value="{{ old('label', $contact->label) }}" required
                     placeholder="e.g., Official WhatsApp, Instagram Resmi"
                     class="w-full bg-gray-700 text-white rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
 
             <div class="mb-4">
-                <label class="block text-white mb-2 font-medium">Value/Username *</label>
+                <label class="block text-white mb-2 font-medium">Username/Nomor HP *</label>
                 <input type="text" name="value" value="{{ old('value', $contact->value) }}" required
                     placeholder="e.g., +62812345678 or @kartur_sangubanyu"
                     class="w-full bg-gray-700 text-white rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -48,7 +47,7 @@
                     placeholder="e.g., https://wa.me/62812345678"
                     class="w-full bg-gray-700 text-white rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 <div class="mt-2 p-3 bg-blue-500/10 border border-blue-500 rounded">
-                    <p class="text-blue-400 text-sm font-semibold mb-2">Link Format Examples:</p>
+                    <p class="text-blue-400 text-sm font-semibold mb-2">Contoh Format Link:</p>
                     <ul class="text-gray-300 text-sm space-y-1">
                         <li>• WhatsApp: <code class="bg-gray-700 px-2 py-0.5 rounded">https://wa.me/62812345678</code></li>
                         <li>• Instagram: <code class="bg-gray-700 px-2 py-0.5 rounded">https://instagram.com/username</code></li>
@@ -57,7 +56,7 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-white mb-2 font-medium">Display Order</label>
+                <label class="block text-white mb-2 font-medium">Urutan</label>
                 <input type="number" name="order" value="{{ old('order', $contact->order) }}"
                     class="w-full bg-gray-700 text-white rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
@@ -66,18 +65,18 @@
                 <label class="flex items-center text-white">
                     <input type="checkbox" name="is_active" value="1" {{ $contact->is_active ? 'checked' : '' }}
                         class="mr-2 rounded bg-gray-700 border-gray-600">
-                    Active (Show on public page)
+                    Aktif (Tampilkan di Menu Kontak)
                 </label>
             </div>
 
             <div class="flex gap-3">
                 <button type="submit"
                     class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md">
-                    Update Contact
+                    Update Kontak
                 </button>
                 <a href="{{ route('admin.contacts.index') }}"
                     class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-md">
-                    Cancel
+                    Batal
                 </a>
             </div>
         </form>

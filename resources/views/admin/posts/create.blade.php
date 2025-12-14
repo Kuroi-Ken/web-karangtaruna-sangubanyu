@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot:title>Create New Post</x-slot:title>
+    <x-slot:title>Buat Blog Baru</x-slot:title>
 
     <div class="max-w-4xl mx-auto py-4 sm:py-6 px-4 sm:px-0">
         <!-- Header -->
@@ -10,12 +10,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
             </a>
-            <h2 class="text-xl sm:text-2xl font-bold text-white">Create New Post</h2>
+            <h2 class="text-xl sm:text-2xl font-bold text-white">Buat Blog Baru</h2>
         </div>
 
         @if ($errors->any())
             <div class="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded mb-4 text-sm">
-                <p class="font-semibold mb-2">Please fix the following errors:</p>
+                <p class="font-semibold mb-2">Mohon perbaiki kesalahan berikut:</p>
                 <ul class="list-disc list-inside space-y-1">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -31,46 +31,46 @@
             <!-- Title -->
             <div>
                 <label class="block text-white mb-2 font-medium text-sm sm:text-base">
-                    Title <span class="text-red-500">*</span>
+                    Judul <span class="text-red-500">*</span>
                 </label>
                 <input type="text" name="title" value="{{ old('title') }}" required
                     class="w-full bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    placeholder="Enter post title">
+                    placeholder="Masukkan judul postingan">
             </div>
 
             <!-- Featured Image -->
             <div>
-                <label class="block text-white mb-2 font-medium text-sm sm:text-base">Featured Image</label>
+                <label class="block text-white mb-2 font-medium text-sm sm:text-base">Gambar Unggulan</label>
                 <input type="file" name="image" accept="image/*" id="imageInput"
                     class="w-full bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 file:cursor-pointer">
-                <p class="text-gray-400 text-xs mt-2">Max size: 2MB. Formats: JPEG, PNG, JPG, GIF (Optional)</p>
+                <p class="text-gray-400 text-xs mt-2">Ukuran maksimal: 2MB. Format: JPEG, PNG, JPG, GIF (Opsional)</p>
                 
                 <!-- Preview Container -->
                 <div id="imagePreview" class="mt-4 hidden">
-                    <p class="text-gray-400 text-sm mb-2">Preview:</p>
-                    <img src="" alt="Preview" class="w-full sm:max-w-md h-48 object-cover rounded-lg">
+                    <p class="text-gray-400 text-sm mb-2">Pratinjau:</p>
+                    <img src="" alt="Pratinjau" class="w-full sm:max-w-md h-48 object-cover rounded-lg">
                 </div>
             </div>
 
             <!-- Author Name -->
             <div>
                 <label class="block text-white mb-2 font-medium text-sm sm:text-base">
-                    Author Name <span class="text-red-500">*</span>
+                    Nama Penulis <span class="text-red-500">*</span>
                 </label>
                 <input type="text" name="author_name" value="{{ old('author_name') }}" required
                     class="w-full bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    placeholder="e.g., John Doe">
-                <p class="text-gray-400 text-xs mt-1">Enter the author's name</p>
+                    placeholder="contoh: Ahmad Fauzi">
+                <p class="text-gray-400 text-xs mt-1">Masukkan nama penulis</p>
             </div>
 
             <!-- Category -->
             <div>
                 <label class="block text-white mb-2 font-medium text-sm sm:text-base">
-                    Category <span class="text-red-500">*</span>
+                    Kategori <span class="text-red-500">*</span>
                 </label>
                 <select name="cate_id" required
                     class="w-full bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option value="">Select Category</option>
+                    <option value="">Pilih Kategori</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" {{ old('cate_id') == $category->id ? 'selected' : '' }}>
                             {{ $category->activity }}
@@ -82,23 +82,23 @@
             <!-- Content -->
             <div>
                 <label class="block text-white mb-2 font-medium text-sm sm:text-base">
-                    Content <span class="text-red-500">*</span>
+                    Konten <span class="text-red-500">*</span>
                 </label>
                 <textarea name="body" rows="12" required
                     class="w-full bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y"
-                    placeholder="Write your post content here...">{{ old('body') }}</textarea>
-                <p class="text-gray-400 text-xs mt-1">Minimum 50 characters recommended</p>
+                    placeholder="Tulis konten postingan Anda di sini...">{{ old('body') }}</textarea>
+                <p class="text-gray-400 text-xs mt-1">Minimal 50 karakter direkomendasikan</p>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-3 pt-4">
                 <button type="submit"
                     class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium text-sm sm:text-base transition order-1 sm:order-1">
-                    Create Post
+                    Buat Postingan
                 </button>
                 <a href="{{ route('admin.posts.index') }}"
                     class="w-full sm:w-auto text-center bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium text-sm sm:text-base transition order-2 sm:order-2">
-                    Cancel
+                    Batal
                 </a>
             </div>
         </form>
@@ -111,7 +111,7 @@
             if (file) {
                 // Check file size (2MB = 2 * 1024 * 1024 bytes)
                 if (file.size > 2 * 1024 * 1024) {
-                    alert('File size must be less than 2MB');
+                    alert('Ukuran file harus kurang dari 2MB');
                     this.value = '';
                     return;
                 }
