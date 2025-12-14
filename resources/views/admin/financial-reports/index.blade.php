@@ -61,6 +61,7 @@
         </div>
 
         <!-- Reports Table -->
+        <!-- Wrapper dengan horizontal scroll untuk mobile -->
         <div class="bg-gray-800 rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full min-w-max">

@@ -67,7 +67,9 @@
         </div>
 
         <!-- Documents Table -->
+        <!-- Desktop: Tabel Normal, Mobile: Scroll Horizontal -->
         <div class="bg-gray-800 rounded-lg overflow-hidden">
+            <!-- Wrapper untuk scroll horizontal di mobile -->
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[800px]">
                     <thead class="bg-gray-700">
